@@ -113,7 +113,9 @@ const cards = document.getElementById('cards');
 const z0 = document.createElement('div'); z0.className = 'card'; z0.innerHTML = `<div class="chip" style="background:#617177"></div><div><b>Z00 · GERAL</b><span>Projetos de toda a extensão e sede (cadastro/SIG, sinalização, pavimento, ITS, Free Flow, CCO)</span><a href="${SP}Z00" target="_blank">site da zona ›</a></div>`; cards.appendChild(z0);
 map.fitBounds(zonasGrp.getBounds(), {padding: [20, 20]}); zonasGrp.bringToFront(); segs.bringToFront();
 // iframe do SharePoint carrega com tamanho zero (lazy load): refaz tamanho e enquadramento quando o mapa ganha dimensão
-let semTamanho = map.getSize().x === 0;
-new ResizeObserver(() => { map.invalidateSize({animate: false}); if (semTamanho && map.getSize().x > 0) { semTamanho = false; map.fitBounds(zonasGrp.getBounds(), {padding: [20, 20]}); } }).observe(document.getElementById('map'));
+const vazio = () => { const s = map.getSize(); return s.x < 50 || s.y < 50; };
+let semTamanho = vazio();
+const refazer = () => { map.invalidateSize({animate: false}); if (semTamanho && !vazio()) { semTamanho = false; map.fitBounds(zonasGrp.getBounds(), {padding: [20, 20]}); } else if (vazio()) semTamanho = true; };
+new ResizeObserver(refazer).observe(document.getElementById('map')); window.addEventListener('resize', refazer); window.addEventListener('load', () => { semTamanho = true; refazer(); });
 
 </script></body></html>
