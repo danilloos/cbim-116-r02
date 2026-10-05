@@ -1,0 +1,205 @@
+/* DS 116 sertões oficial v3: bundle.css
+   Base: manual digital da marca (LND Design, 2026) + Apresentação de Identidade Visual.
+   Regras: duas famílias (texto = Source Sans 3, display = Manrope Bold); sem sombra em repouso;
+   degradê só nos três oficiais; azul-profundo sustenta, caraibeira chama, azul-ararinha conduz.
+   Movimento em motion.css. */
+.s116,.s116 *{box-sizing:border-box}
+.s116{font-family:var(--font-texto);color:var(--azul-profundo);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.s116-num{font-family:var(--font-display);font-variant-numeric:tabular-nums lining-nums}
+
+/* Tipografia de página */
+.s116-eyebrow{font-family:var(--font-texto);font-weight:700;font-size:13px;line-height:1.3;letter-spacing:.15em;text-transform:uppercase;color:var(--azul-profundo);margin:0}
+.s116-eyebrow--via{color:var(--azul-via)}
+.s116-eyebrow--ararinha{color:var(--azul-ararinha)}
+.s116-titulo{font-family:var(--font-display);font-weight:700;font-size:36px;line-height:1.12;letter-spacing:-.02em;color:var(--azul-profundo);margin:0}
+.s116-lead{font-size:clamp(20px,2vw,28px);line-height:1.25;color:var(--texto);margin:0}
+.s116-display{font-family:var(--font-display);font-weight:700;font-size:clamp(56px,7vw,120px);line-height:1.02;letter-spacing:-.06em;margin:0}
+.s116-display--numero{font-size:clamp(88px,19vw,330px);line-height:.85;letter-spacing:-.08em;font-variant-numeric:tabular-nums}
+.s116-display--numero small{font-size:.22em;letter-spacing:0;margin-left:.1em}
+.s116-display .s116-destaque-voo{display:block}
+.s116-link-texto{display:inline-block;font-family:var(--font-texto);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:inherit;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:5px}
+.s116-link-texto:hover{color:var(--azul-via);border-bottom-width:2px}
+.s116-citacao{font-family:var(--font-texto);font-weight:300;font-style:italic;font-size:22px;line-height:1.35;color:var(--azul-profundo);margin:0}
+.s116-destaque-raiz{color:var(--caraibeira)}
+.s116-destaque-voo{color:var(--azul-ararinha)}
+
+/* Linha raiz: a base da marca como divisor */
+.s116-raiz{display:flex;align-items:flex-start;height:21px;width:100%}
+.s116-raiz::before,.s116-raiz::after{content:"";flex:1;height:var(--traco-raiz);margin-top:17px;background:var(--caraibeira)}
+.s116-raiz__flor{flex:0 0 149px;height:21px;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 149.24 21.05%22%3E%3Cpath fill=%22%23F5BA00%22 d=%22M 41.664063,14.824219 C 42.425781,14.757812 43.222657,14.824219 44.082031,14.722656 L 50.539063,13.792969 C 54.714844,13.171875 58.648438,12.246093 62.585938,10.730469 C 68.175781,8.566406 71.804688,5.503906 73.871094,0 C 73.871094,1.890625 73.976563,3.78125 74.492188,5.710937 C 75.566407,9.628906 80.085938,11.453125 83.988281,12.453125 C 93.167969,14.789062 106.976563,15.753906 116.816407,16.167969 L 148.46875,17.785156 C 148.882813,17.785156 149.296875,18.4375 149.230469,18.679687 C 149.160157,18.917969 148.746094,19.433593 148.300781,19.402343 L 134.523438,19.160156 L 103.972657,18.300781 L 101.488281,18.058593 C 96.414063,17.578125 91.480469,17.027343 86.4375,16.027343 C 83.058594,15.375 79.914063,14.445312 76.910157,13.105469 L 76.742188,13.3125 C 79.566407,16.234375 86.78125,18.195312 91.238281,18.988281 L 97.832031,20.15625 C 98.039063,20.191406 98.347657,20.464843 98.347657,20.605469 C 98.347657,20.742187 98.140625,21.050781 97.902344,21.050781 C 94.101563,21.050781 90.441407,20.535156 86.679688,19.917969 L 81.707031,19.089843 L 76.496094,17.851562 C 73.5625,17.164062 71.007813,16.820312 68.039063,17.644531 C 64.589844,18.644531 61.136719,19.402343 57.546875,19.917969 C 53.953125,20.433593 50.574219,20.914062 46.984375,21.050781 C 46.636719,21.050781 46.460938,20.984375 46.363281,20.742187 C 46.253907,20.5 46.53125,20.15625 46.84375,20.089843 C 53.230469,18.988281 61.757813,17.578125 66.863281,13.828125 C 67.867188,13.070312 68.796875,12.382812 69.25,11.179687 C 67.691407,12.347656 66.105469,13.070312 64.3125,13.691406 C 58.957031,15.511719 53.578125,16.683593 47.914063,17.371093 C 39.59375,18.367187 31.410157,18.679687 22.992188,18.851562 L 0.933594,19.296875 C 0.414063,19.296875 0,18.816406 0,18.472656 C 0,18.128906 0.378907,17.679687 0.726563,17.644531 L 9.632813,17.234375 C 20.4375,16.613281 31.101563,15.960937 41.769531,14.824219 Z M 76.773438,12.96875 C 76.496094,12.726562 76.496094,13.140625 76.496094,13.070312 Z M 76.773438,12.96875%22/%3E%3C/svg%3E") no-repeat center/149px 21px}
+.s116-raiz--esquerda::before{flex:0 0 48px}
+.s116-raiz--branca::before,.s116-raiz--branca::after{background:#fff}
+.s116-raiz--branca .s116-raiz__flor{background-image:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 149.24 21.05%22%3E%3Cpath fill=%22%23FFFFFF%22 d=%22M 41.664063,14.824219 C 42.425781,14.757812 43.222657,14.824219 44.082031,14.722656 L 50.539063,13.792969 C 54.714844,13.171875 58.648438,12.246093 62.585938,10.730469 C 68.175781,8.566406 71.804688,5.503906 73.871094,0 C 73.871094,1.890625 73.976563,3.78125 74.492188,5.710937 C 75.566407,9.628906 80.085938,11.453125 83.988281,12.453125 C 93.167969,14.789062 106.976563,15.753906 116.816407,16.167969 L 148.46875,17.785156 C 148.882813,17.785156 149.296875,18.4375 149.230469,18.679687 C 149.160157,18.917969 148.746094,19.433593 148.300781,19.402343 L 134.523438,19.160156 L 103.972657,18.300781 L 101.488281,18.058593 C 96.414063,17.578125 91.480469,17.027343 86.4375,16.027343 C 83.058594,15.375 79.914063,14.445312 76.910157,13.105469 L 76.742188,13.3125 C 79.566407,16.234375 86.78125,18.195312 91.238281,18.988281 L 97.832031,20.15625 C 98.039063,20.191406 98.347657,20.464843 98.347657,20.605469 C 98.347657,20.742187 98.140625,21.050781 97.902344,21.050781 C 94.101563,21.050781 90.441407,20.535156 86.679688,19.917969 L 81.707031,19.089843 L 76.496094,17.851562 C 73.5625,17.164062 71.007813,16.820312 68.039063,17.644531 C 64.589844,18.644531 61.136719,19.402343 57.546875,19.917969 C 53.953125,20.433593 50.574219,20.914062 46.984375,21.050781 C 46.636719,21.050781 46.460938,20.984375 46.363281,20.742187 C 46.253907,20.5 46.53125,20.15625 46.84375,20.089843 C 53.230469,18.988281 61.757813,17.578125 66.863281,13.828125 C 67.867188,13.070312 68.796875,12.382812 69.25,11.179687 C 67.691407,12.347656 66.105469,13.070312 64.3125,13.691406 C 58.957031,15.511719 53.578125,16.683593 47.914063,17.371093 C 39.59375,18.367187 31.410157,18.679687 22.992188,18.851562 L 0.933594,19.296875 C 0.414063,19.296875 0,18.816406 0,18.472656 C 0,18.128906 0.378907,17.679687 0.726563,17.644531 L 9.632813,17.234375 C 20.4375,16.613281 31.101563,15.960937 41.769531,14.824219 Z M 76.773438,12.96875 C 76.496094,12.726562 76.496094,13.140625 76.496094,13.070312 Z M 76.773438,12.96875%22/%3E%3C/svg%3E")}
+
+/* Botões */
+.s116-botao{display:inline-flex;align-items:center;justify-content:center;gap:var(--esp-8);font-family:var(--font-texto);font-weight:700;font-size:17px;line-height:1.2;border:0;border-radius:var(--raio-controle);padding:var(--esp-12) var(--esp-24);cursor:pointer;text-decoration:none;transition:background-color .18s ease-out,color .18s ease-out}
+.s116-botao--primario{background:var(--azul-profundo);color:var(--on-profundo)}
+.s116-botao--primario:hover{background:var(--azul-via)}
+.s116-botao--chamada{background:var(--caraibeira);color:var(--on-caraibeira)}
+.s116-botao--chamada:hover{background:var(--floracao)}
+.s116-botao--contorno{background:transparent;color:var(--azul-profundo);outline:var(--traco-filete) solid var(--azul-profundo);outline-offset:-1px}
+.s116-botao--contorno:hover{background:var(--azul-nevoa)}
+.s116-botao:focus-visible,.s116-link:focus-visible,.s116-link-texto:focus-visible,.s116-aba:focus-visible,.s116-campo__input:focus-visible{outline:2px solid var(--foco);outline-offset:2px}
+.s116-escuro .s116-botao:focus-visible,.s116-escuro .s116-link:focus-visible{outline-color:var(--caraibeira)}
+.s116-botao[disabled]{background:var(--filete);color:var(--texto);cursor:not-allowed}
+.s116-link{color:var(--azul-via);text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.s116-escuro .s116-link{color:#fff}
+
+/* Etiquetas */
+.s116-etiqueta{display:inline-flex;align-items:center;gap:var(--esp-8);font-weight:700;font-size:13px;line-height:1;letter-spacing:.04em;text-transform:uppercase;color:var(--azul-profundo);background:var(--azul-nevoa);border-radius:var(--raio-pill);padding:var(--esp-8) var(--esp-12)}
+.s116-etiqueta--caraibeira{background:var(--caraibeira)}
+.s116-etiqueta--palha{background:var(--palha-clara)}
+.s116-etiqueta--status{background:var(--branco);outline:var(--traco-filete) solid var(--filete);outline-offset:-1px}
+.s116-etiqueta__ponto{width:8px;height:8px;border-radius:var(--raio-pill);background:var(--azul-ararinha)}
+.s116-etiqueta__ponto--caatinga{background:var(--caatinga)}
+.s116-etiqueta__ponto--terra{background:var(--terra-viva)}
+.s116-etiqueta__ponto--caraibeira{background:var(--caraibeira)}
+
+/* Lista de marcadores (manual: narrativas) */
+.s116-marcadores{list-style:none;margin:0;padding:0;display:grid;gap:var(--esp-12)}
+.s116-marcadores li{position:relative;padding-left:22px;color:var(--azul-profundo)}
+.s116-marcadores li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;border-radius:var(--raio-pill);background:var(--caraibeira)}
+.s116-marcadores li:nth-child(even)::before{background:var(--azul-ararinha)}
+
+/* Cards */
+.s116-card{background:var(--branco);border-radius:var(--raio-reto);padding:var(--esp-32);display:flex;flex-direction:column;gap:var(--esp-12);color:var(--azul-profundo)}
+.s116-card--fundo{background:var(--fundo)}
+.s116-card--nevoa{background:var(--azul-nevoa)}
+.s116-card--profundo{background:var(--azul-profundo);color:var(--on-profundo)}
+.s116-card--profundo .s116-eyebrow{color:var(--azul-ararinha)}
+.s116-card--profundo .s116-card__texto{color:#fff}
+.s116-card__titulo{font-family:var(--font-display);font-weight:700;font-size:22px;line-height:1.25;margin:0}
+.s116-card--painel{border-radius:var(--raio-card)}
+.s116-grade-fio{display:grid;gap:2px;background:rgba(6,75,99,.15)}
+.s116-grade-fio>*{background:var(--branco)}
+.s116-card__texto{font-size:15px;line-height:1.45;color:var(--texto);margin:0}
+.s116-card__barra{width:200px;height:8px;border-radius:var(--raio-pill);background:var(--caraibeira)}
+
+/* Painel narrativo: cor + foto, divididos pela curva orgânica */
+.s116-painel{position:relative;display:grid;grid-template-columns:44% 56%;min-height:420px;border-radius:var(--raio-reto);overflow:hidden;background:var(--azul-profundo)}
+.s116-painel--creme{background:var(--creme)}
+.s116-painel__texto{position:relative;z-index:2;padding:var(--esp-48);display:flex;flex-direction:column;justify-content:center;gap:var(--esp-16);color:#fff}
+.s116-painel--creme .s116-painel__texto{color:var(--azul-profundo)}
+.s116-painel__foto{position:relative;background-size:cover;background-position:center}
+.s116-painel__curva{position:absolute;top:0;bottom:0;left:-1px;width:80px;height:100%}
+.s116-painel__curva .campo{fill:var(--azul-profundo)}
+.s116-painel--creme .s116-painel__curva .campo{fill:var(--creme)}
+.s116-painel__curva .fio{fill:none;stroke:var(--caraibeira);stroke-width:2;vector-effect:non-scaling-stroke}
+.s116-painel .s116-display{color:#fff;font-size:48px}
+.s116-painel--creme .s116-display{color:var(--azul-profundo)}
+.s116-painel__assinatura{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--caraibeira);margin:0}
+.s116-painel--degrade{background:var(--degrade-conexao)}
+.s116-painel--degrade .s116-painel__curva{display:none}
+.s116-painel--creme .s116-painel__assinatura{color:var(--azul-via)}
+
+/* Galeria: universo fotográfico com a barra caraibeira */
+.s116-galeria{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:var(--esp-16)}
+.s116-galeria figure{margin:0;display:flex;flex-direction:column}
+.s116-galeria img{width:100%;height:260px;object-fit:cover;display:block}
+.s116-galeria figcaption{border-top:var(--traco-barra) solid var(--caraibeira);padding-top:var(--esp-12);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--azul-profundo)}
+
+/* Barra superior (site, intranet, SharePoint) */
+.s116-barra{display:flex;align-items:center;gap:var(--esp-32);background:var(--azul-profundo);color:#fff;padding:0 var(--esp-32);height:72px;border-bottom:var(--traco-barra) solid var(--caraibeira)}
+.s116-barra__logo{height:40px;width:auto;display:block}
+.s116-barra__nav{display:flex;gap:var(--esp-24);margin-left:auto;font-weight:700;font-size:15px}
+.s116-barra__nav a{color:#fff;text-decoration:none;padding:var(--esp-8) 0;border-bottom:2px solid transparent}
+.s116-barra__nav a:hover,.s116-barra__nav a[aria-current]{border-bottom-color:var(--azul-ararinha)}
+.s116-barra__nav a:focus-visible{outline:2px solid var(--caraibeira);outline-offset:4px}
+.s116-barra--clara{background:var(--branco);color:var(--azul-profundo);border-bottom-color:var(--caraibeira)}
+.s116-barra--clara .s116-barra__nav a{color:var(--azul-profundo)}
+
+/* Indicador */
+.s116-indicador{display:flex;flex-direction:column;gap:var(--esp-8)}
+.s116-indicador__valor{font-family:var(--font-display);font-weight:700;font-size:88px;line-height:.9;letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--azul-profundo)}
+.s116-indicador__valor small{font-size:32px;letter-spacing:0;margin-left:4px}
+.s116-indicador__rotulo{font-size:15px;line-height:1.45;color:var(--texto);max-width:24ch}
+.s116-indicador__barra{width:48px;height:var(--traco-barra);border-radius:var(--raio-pill);background:var(--caraibeira)}
+
+/* Tabela de trecho */
+.s116-tabela{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--raio-card);overflow:hidden;font-size:15px;line-height:1.45;background:var(--branco)}
+.s116-tabela th{background:var(--azul-profundo);color:#fff;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;text-align:left;padding:var(--esp-12) var(--esp-16)}
+.s116-tabela td{padding:var(--esp-12) var(--esp-16);border-top:var(--traco-filete) solid var(--filete);color:var(--azul-profundo)}
+.s116-tabela tr:nth-child(even) td{background:var(--fundo)}
+.s116-tabela .n{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+/* Placa km */
+.s116-placa{display:inline-flex;flex-direction:column;gap:var(--esp-4);background:var(--azul-profundo);color:#fff;border-radius:var(--raio-controle);padding:var(--esp-12) var(--esp-16);min-width:160px;border-bottom:var(--traco-barra) solid var(--caraibeira)}
+.s116-placa__rodovia{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--azul-ceu)}
+.s116-placa__km{font-family:var(--font-display);font-weight:700;font-size:36px;line-height:1;font-variant-numeric:tabular-nums}
+.s116-placa__km small{font-size:18px}
+
+/* Campo */
+.s116-campo{display:flex;flex-direction:column;gap:var(--esp-8);max-width:360px}
+.s116-campo__rotulo{font-weight:700;font-size:15px;color:var(--azul-profundo)}
+.s116-campo__input{font:400 17px/1.5 var(--font-texto);color:var(--azul-profundo);background:var(--branco);border:var(--traco-filete) solid var(--borda-controle);border-radius:var(--raio-controle);padding:var(--esp-12) var(--esp-16)}
+.s116-campo__input::placeholder{color:var(--texto)}
+.s116-campo__ajuda{font-size:13px;line-height:1.35;color:var(--texto)}
+.s116-campo--erro .s116-campo__input{border-color:var(--terra-viva);outline:var(--traco-filete) solid var(--terra-viva)}
+.s116-campo--erro .s116-campo__ajuda{color:var(--azul-profundo)}
+.s116-campo--erro .s116-campo__ajuda::before{content:"Erro: ";font-weight:700}
+
+/* Aviso */
+.s116-aviso{display:flex;gap:var(--esp-16);align-items:flex-start;background:var(--branco);border-radius:var(--raio-reto);padding:var(--esp-16) var(--esp-24);color:var(--azul-profundo);font-size:15px;line-height:1.45;border-left:0}
+.s116-aviso__rotulo{flex:none;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:var(--esp-8);line-height:21px}
+.s116-aviso__rotulo::before{content:"";width:10px;height:10px;border-radius:var(--raio-pill);background:var(--azul-ararinha)}
+.s116-aviso--concluido .s116-aviso__rotulo::before{background:var(--caatinga)}
+.s116-aviso--erro .s116-aviso__rotulo::before{background:var(--terra-viva)}
+.s116-aviso--atencao{background:var(--caraibeira)}
+.s116-aviso--atencao .s116-aviso__rotulo::before{background:var(--azul-profundo)}
+
+/* Gráfico (Storytelling com Dados) */
+.s116-grafico{margin:0;max-width:760px;display:flex;flex-direction:column;gap:var(--esp-16)}
+.s116-grafico__titulo{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:1.2;color:var(--azul-profundo);margin:0}
+.s116-grafico__sub{font-size:15px;color:var(--texto);margin:var(--esp-4) 0 0}
+.s116-grafico__svg{width:100%;height:auto;overflow:visible}
+.s116-grafico__svg .contexto{fill:var(--dado-contexto)}
+.s116-grafico__svg .destaque{fill:var(--dado-destaque)}
+.s116-grafico__svg .eixo{stroke:var(--borda-controle);stroke-width:1}
+.s116-grafico__svg text{font-family:var(--font-texto);font-size:15px;fill:var(--texto)}
+.s116-grafico__svg .val{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums}
+.s116-grafico__svg .rot-d,.s116-grafico__svg .val-d{fill:var(--azul-profundo);font-weight:700}
+.s116-grafico__svg .nota{fill:var(--azul-profundo);font-size:14px}
+.s116-grafico__fonte{font-size:12px;letter-spacing:.02em;color:var(--texto);margin:0}
+
+/* Rodapé */
+.s116-rodape{background:var(--azul-profundo);color:#fff;padding:var(--esp-48);display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--esp-32);font-size:15px;border-top:var(--traco-barra) solid var(--caraibeira)}
+.s116-rodape h4{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 var(--esp-12);color:var(--azul-ararinha)}
+.s116-rodape ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--esp-8)}
+.s116-rodape a{color:#fff}
+.s116-rodape__assinatura{font-family:var(--font-display);font-weight:700;color:var(--caraibeira);margin:var(--esp-16) 0 0}
+
+/* Campanhas culturais: folheto e estrofe de cordel */
+.s116-folheto{--papel-folheto:var(--palha-clara);display:flex;flex-direction:column;gap:var(--esp-12);aspect-ratio:11/16;width:100%;max-width:240px;background:var(--papel-folheto);color:var(--azul-profundo);padding:var(--esp-24) var(--esp-16);text-decoration:none;border-top:var(--traco-barra) solid var(--caraibeira)}
+.s116-folheto--nevoa{--papel-folheto:var(--azul-nevoa)}
+.s116-folheto--creme{--papel-folheto:var(--creme)}
+.s116-folheto__xilo{display:block;width:100%;height:auto}
+.s116-folheto__xilo .tinta{fill:var(--azul-profundo)}
+.s116-folheto__xilo .corte{fill:none;stroke:var(--papel-folheto);stroke-width:2;stroke-linecap:round}
+.s116-folheto__xilo .lasca{fill:var(--papel-folheto)}
+.s116-folheto__titulo{font-family:var(--font-display);font-weight:700;font-size:19px;line-height:1.1;text-transform:uppercase;text-align:center;margin:0}
+.s116-folheto__autor{font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-align:center;margin:auto 0 0}
+.s116-estrofe{margin:0;background:var(--creme);border-radius:var(--raio-reto);padding:var(--esp-32) var(--esp-48);display:flex;flex-direction:column;gap:var(--esp-16);max-width:560px}
+.s116-estrofe__versos{margin:0;display:flex;flex-direction:column;gap:var(--esp-4);font-size:21px;line-height:1.45;color:var(--azul-profundo);counter-reset:verso}
+.s116-estrofe__versos>span{display:block;position:relative;padding-left:var(--esp-32)}
+.s116-estrofe__versos>span::before{position:absolute;left:0;top:8px;line-height:1;counter-increment:verso;content:counter(verso);font-family:var(--font-display);font-weight:700;font-size:12px;color:var(--texto)}
+.s116-estrofe__rima{text-decoration:underline;text-decoration-color:var(--caraibeira);text-decoration-thickness:2px;text-underline-offset:4px}
+.s116-estrofe__credito{font-size:13px;color:var(--texto);margin:0}
+
+/* Grafismos v3: Percursos, Horizontes, linha de rota estática */
+.s116-percursos{background:var(--azul-profundo) url("percursos_profundo-ararinha.svg") repeat;background-size:960px 612px}
+.s116-percursos--marfim{background:var(--marfim) url("percursos_ararinha-sobre-marfim.svg") repeat;background-size:960px 612px}
+.s116-percursos--caraibeira{background:var(--marfim) url("percursos_caraibeira-sobre-marfim.svg") repeat;background-size:960px 612px}
+.s116-horizontes{background:var(--caraibeira) url("horizontes_caraibeira-profundo.svg") repeat;background-size:264px 264px}
+.s116-pattern-painel{position:relative;min-height:420px;overflow:hidden}
+.s116-pattern-painel__texto{position:absolute;left:0;bottom:0;max-width:420px;background:var(--marfim);color:var(--azul-profundo);padding:var(--esp-32) var(--esp-48)}
+.s116-pattern-painel__texto h3{font-family:var(--font-display);font-weight:700;font-size:32px;margin:var(--esp-8) 0}
+.s116-fio-curto{display:block;width:48px;height:var(--traco-rota);background:var(--caraibeira);margin:0 0 var(--esp-24)}
+.s116-abas{display:flex;flex-wrap:wrap;gap:var(--esp-8)}
+.s116-aba{background:transparent;color:var(--azul-profundo);border:1px solid var(--azul-profundo);padding:13px 22px;cursor:pointer;font-family:var(--font-texto);font-size:13px;letter-spacing:.09em;text-transform:uppercase}
+.s116-aba[aria-selected=true]{background:var(--azul-profundo);color:#fff}
+.s116-aba:hover{background:var(--azul-nevoa)}
+.s116-lista-num{display:flex;flex-direction:column}
+.s116-lista-num article{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:18px 0;border-top:1px solid rgba(6,75,99,.28)}
+.s116-lista-num article>span{color:var(--azul-via);font-family:var(--font-display);font-weight:700;font-size:18px}
+.s116-lista-num h3{font-family:var(--font-display);font-weight:700;font-size:24px;margin:0 0 8px}
+.s116-lista-num p{font-size:17px;line-height:1.4;margin:0;color:var(--texto)}

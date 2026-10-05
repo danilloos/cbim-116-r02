@@ -1,0 +1,79 @@
+/* DS 116 sertões v3: motion.css
+   Padrões M-Reveal, M-Rota, M-Textura, M-Hover, M-Interface, M-Dado (ver 06_Motion_design.md).
+   Depende de tokens.css. Tudo desliga com prefers-reduced-motion. */
+
+/* M-Reveal: entrada única de conteúdo */
+/* Só esconde quando há JS (html.js, marcado pelo script); sem JS e na impressão, tudo visível. */
+html.js .s116-reveal{opacity:0;transform:translateY(var(--desl-reveal));transition:opacity calc(var(--mov-cena) - 150ms) var(--curva-assentar),transform var(--mov-cena) var(--curva-assentar)}
+html.js .s116-reveal.s116-eleva{transition:opacity calc(var(--mov-cena) - 150ms) var(--curva-assentar),transform var(--mov-cena) var(--curva-assentar),box-shadow var(--mov-medio)}
+html.js .s116-reveal.s116-eleva.is-visible{transition:transform var(--mov-lento) var(--curva-deslizar),box-shadow var(--mov-medio)}
+html.js .s116-reveal.is-visible{opacity:1;transform:none}
+.s116-reveal[data-ordem="1"]{transition-delay:80ms}.s116-reveal[data-ordem="2"]{transition-delay:160ms}.s116-reveal[data-ordem="3"]{transition-delay:240ms}.s116-reveal[data-ordem="4"]{transition-delay:320ms}
+html.js .s116-palavra{display:inline-block;opacity:0;transform:translateY(var(--desl-palavra));transition:opacity var(--mov-lento) var(--curva-assentar),transform var(--mov-lento) var(--curva-assentar)}
+.is-visible .s116-palavra{opacity:1;transform:none}
+
+/* M-Hover: resposta ao ponteiro */
+.s116-eleva{transition:transform var(--mov-lento) var(--curva-deslizar),box-shadow var(--mov-medio)}
+.s116-eleva:hover{transform:translateY(calc(var(--desl-hover) * -1));box-shadow:0 15px 35px rgba(0,0,0,.13)}
+.s116-eleva--forte:hover{transform:translateY(calc(var(--desl-hover-forte) * -1)) rotate(-.65deg);filter:brightness(1.12)}
+.s116-foto-zoom{overflow:hidden}
+.s116-foto-zoom img{transition:transform var(--mov-cena) var(--curva-deslizar);will-change:transform}
+.s116-foto-zoom:hover img{transform:scale(var(--escala-foto))}
+.s116-brilho{position:relative;isolation:isolate;overflow:hidden}
+.s116-brilho::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;background:radial-gradient(circle at var(--ponteiro-x,50%) var(--ponteiro-y,30%),rgba(255,255,255,.27),transparent 65%);transition:opacity var(--mov-medio)}
+.s116-brilho:hover::before{opacity:1}
+
+/* M-Textura: degradê e brilho em loop (só fundo, nunca sob texto corrido) */
+.s116-degrade-conexao{background:var(--degrade-conexao);color:#fff}
+.s116-degrade-amplitude{background:var(--degrade-amplitude);color:var(--azul-profundo)}
+.s116-degrade-luz{background:var(--degrade-luz);color:var(--azul-profundo)}
+.s116-degrade--vivo{background-size:190% 190%;animation:s116-varredura 9s ease-in-out infinite alternate;transition:filter var(--mov-medio),transform var(--mov-medio) var(--curva-assentar)}
+.s116-degrade--vivo:hover{animation-play-state:paused;filter:saturate(1.28) contrast(1.06);transform:translateY(-7px)}
+@keyframes s116-varredura{0%{background-position:8% 20%}50%{background-position:92% 76%}100%{background-position:18% 92%}}
+.s116-brilho-fundo{position:relative;isolation:isolate;overflow:hidden}
+.s116-brilho-fundo::before{content:"";position:absolute;z-index:-1;inset:-55%;background:radial-gradient(circle at 35% 25%,rgba(22,166,220,.5),transparent 42%);animation:s116-brilho var(--mov-ambiente) ease-in-out infinite alternate;pointer-events:none}
+.s116-brilho-fundo:nth-child(2)::before{animation-delay:-2.6s}.s116-brilho-fundo:nth-child(3)::before{animation-delay:-5.2s}
+@keyframes s116-brilho{0%{transform:translate(-12%,-8%) scale(.9)}100%{transform:translate(16%,13%) scale(1.2)}}
+.s116-veu{position:relative}
+.s116-veu::after{content:"";position:absolute;inset:0;background:var(--veu-lateral),var(--veu-base);pointer-events:none}
+
+/* M-Rota: linha de rota */
+.s116-rota{display:flex;align-items:center;gap:14px;font-family:var(--font-texto);font-weight:700;font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--azul-profundo)}
+.s116-escuro .s116-rota{color:#fff}
+.s116-rota i{position:relative;flex:1;height:var(--traco-rota);background:linear-gradient(90deg,var(--caraibeira),var(--azul-ararinha))}
+html.js .s116-rota i{transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--curva-estender)}
+.s116-rota.is-visible i{transform:none;background:linear-gradient(90deg,var(--caraibeira),var(--palha-clara),var(--azul-ararinha),var(--azul-ceu),var(--caraibeira));background-size:240% 100%;animation:s116-fluxo 5.5s linear infinite}
+.s116-rota i::before,.s116-rota i::after{content:"";position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%}
+.s116-rota i::before{left:0;background:var(--caraibeira)}
+.s116-rota i::after{right:0;background:var(--azul-ararinha)}
+.s116-rota.is-visible i::before{animation:s116-pulso-amarelo 2.8s ease-in-out infinite}
+.s116-rota.is-visible i::after{animation:s116-pulso-azul 2.8s ease-in-out .7s infinite}
+@keyframes s116-fluxo{to{background-position:-240% 0}}
+@keyframes s116-pulso-amarelo{50%{transform:scale(var(--escala-pulso));box-shadow:0 0 0 8px rgba(245,186,0,0),0 0 18px rgba(245,186,0,.75)}}
+@keyframes s116-pulso-azul{50%{transform:scale(var(--escala-pulso));box-shadow:0 0 0 8px rgba(22,166,220,0),0 0 18px rgba(22,166,220,.75)}}
+
+/* M-Interface */
+.s116-progresso{position:fixed;top:0;left:0;right:0;height:3px;z-index:100}
+.s116-progresso span{display:block;width:0;height:100%;background:var(--caraibeira);transition:width var(--mov-instantaneo) linear}
+.s116-vidro{background:rgba(246,244,238,.95);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:background var(--mov-medio),color var(--mov-medio)}
+.s116-cortina{clip-path:inset(0 0 100% 0);transition:clip-path var(--mov-lento) var(--curva-cortina);pointer-events:none}
+.s116-cortina.is-open{clip-path:inset(0);pointer-events:auto}
+.s116-troca{animation:s116-entrada 550ms ease-out}
+@keyframes s116-entrada{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.s116-botao,.s116-link,.s116-aba{transition:background var(--mov-rapido),color var(--mov-rapido),border-color var(--mov-rapido)}
+
+/* M-Dado */
+html.js .s116-barra-cresce{transform-origin:left;transform:scaleX(0);transition:transform var(--mov-cena) var(--curva-estender)}
+.is-visible .s116-barra-cresce{transform:none}
+.is-visible .s116-barra-cresce:nth-child(2){transition-delay:80ms}.is-visible .s116-barra-cresce:nth-child(3){transition-delay:160ms}.is-visible .s116-barra-cresce:nth-child(4){transition-delay:240ms}.is-visible .s116-barra-cresce:nth-child(5){transition-delay:320ms}
+
+/* Impressão: tudo em repouso, sem controles de tela */
+@media print{.s116-reveal,.s116-palavra,.s116-barra-cresce,.s116-rota i{opacity:1!important;transform:none!important;animation:none!important}.s116-progresso{display:none}}
+/* Acessibilidade */
+@media (prefers-reduced-motion:reduce){
+  video[autoplay]{display:none}
+  .s116-reveal,.s116-palavra,.s116-rota i,.s116-barra-cresce{opacity:1!important;transform:none!important;transition:none!important}
+  .s116-degrade--vivo,.s116-brilho-fundo::before,.s116-rota.is-visible i,.s116-rota.is-visible i::before,.s116-rota.is-visible i::after,.s116-troca{animation:none!important}
+  .s116-eleva:hover,.s116-eleva--forte:hover,.s116-foto-zoom:hover img,.s116-degrade--vivo:hover{transform:none!important}
+  .s116-cortina,.s116-vidro,.s116-progresso span,.s116-botao,.s116-link,.s116-aba{transition-duration:.01ms!important}
+}

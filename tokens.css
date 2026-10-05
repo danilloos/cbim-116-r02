@@ -1,0 +1,21 @@
+/* DS 116 sertões oficial v3: tokens compilados (manual digital LND Design, 2026) */
+:root{
+--azul-profundo:#064b63;--azul-ararinha:#16a6dc;--caraibeira:#f5ba00;--on-profundo:#ffffff;--on-caraibeira:#064b63;
+--azul-via:#087ca3;--azul-ceu:#65ccee;--azul-nevoa:#d5f4fc;--ouro-seco:#c98a00;--floracao:#ffd34f;--palha-clara:#fff3ae;--caatinga:#4d826a;--terra-viva:#d9734f;
+--marfim:#f6f4ee;--fundo:#f3f2ed;--creme:#f9f1e6;--branco:#ffffff;--texto:#617177;--filete:#d2dad8;--tinta:#073d51;--profundo-escuro:#043b50;
+--borda-controle:#7f8c90;--foco:#087ca3;--dado-contexto:#c5ced0;--dado-destaque:var(--azul-profundo);
+--degrade-conexao:linear-gradient(130deg,#064b63,#16a6dc);--degrade-amplitude:linear-gradient(25deg,#087ca3,#65ccee);--degrade-luz:linear-gradient(135deg,#f5ba00,#fff3ae);
+--veu-lateral:linear-gradient(90deg,rgba(7,61,81,.78),rgba(7,61,81,.24) 58%,rgba(7,61,81,.08));--veu-base:linear-gradient(0deg,rgba(7,61,81,.48),transparent 48%);
+--esp-4:4px;--esp-8:8px;--esp-12:12px;--esp-16:16px;--esp-24:24px;--esp-32:32px;--esp-48:48px;--esp-64:64px;--esp-96:96px;
+--raio-reto:0;--raio-controle:8px;--raio-card:16px;--raio-pill:9999px;
+--traco-filete:1px;--traco-raiz:2px;--traco-rota:4px;--traco-barra:6px;--traco-percurso:13px;
+--font-texto:"Source Sans 3",SourceSans,Calibri,"Segoe UI",sans-serif;--font-display:Manrope,"Arial Black","Segoe UI Black",Arial,sans-serif;
+--mov-instantaneo:100ms;--mov-rapido:250ms;--mov-medio:400ms;--mov-lento:650ms;--mov-cena:1100ms;--mov-contador:1600ms;--mov-ambiente:8s;
+--curva-assentar:cubic-bezier(.16,1,.3,1);--curva-deslizar:cubic-bezier(.2,.8,.2,1);--curva-estender:cubic-bezier(.2,.7,.1,1);--curva-cortina:cubic-bezier(.75,0,.2,1);
+--desl-reveal:32px;--desl-hover:8px;--desl-hover-forte:14px;--desl-palavra:14px;--escala-foto:1.045;--escala-pulso:1.45;
+}
+@font-face{font-family:'Manrope';src:url('manrope-bold.ttf') format('truetype');font-weight:700;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('source-sans-3.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('source-sans-3-light-italic.ttf') format('truetype');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('source-sans-3-latin-700-normal.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Source Sans 3';src:url('source-sans-3-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
