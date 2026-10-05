@@ -111,11 +111,15 @@ const cards = document.getElementById('cards');
   d.onclick = ev => { if (ev.target.tagName === 'A') return; document.querySelectorAll('.card').forEach(c => c.classList.remove('on')); d.classList.add('on'); map.fitBounds(layers[z].getBounds(), {padding: [30, 30]}); layers[z].openPopup(); };
   cards.appendChild(d); });
 const z0 = document.createElement('div'); z0.className = 'card'; z0.innerHTML = `<div class="chip" style="background:#617177"></div><div><b>Z00 · GERAL</b><span>Projetos de toda a extensão e sede (cadastro/SIG, sinalização, pavimento, ITS, Free Flow, CCO)</span><a href="${SP}Z00" target="_blank">site da zona ›</a></div>`; cards.appendChild(z0);
-map.fitBounds(zonasGrp.getBounds(), {padding: [20, 20]}); zonasGrp.bringToFront(); segs.bringToFront();
+// ?zona=Zxx abre o mapa focado na zona (iframe dos sites de zona)
+const ZP = (new URLSearchParams(location.search).get('zona') || '').toUpperCase();
+const enquadrar = () => map.fitBounds((layers[ZP] || zonasGrp).getBounds(), {padding: layers[ZP] ? [40, 40] : [20, 20]});
+enquadrar(); zonasGrp.bringToFront(); segs.bringToFront();
+if (layers[ZP]) { const c = [...document.querySelectorAll('.card')].find(x => x.querySelector('b') && x.querySelector('b').textContent.startsWith(ZP)); if (c) { c.classList.add('on'); c.scrollIntoView({block: 'nearest'}); } }
 // iframe do SharePoint carrega com tamanho zero (lazy load): refaz tamanho e enquadramento quando o mapa ganha dimensão
 const vazio = () => { const s = map.getSize(); return s.x < 50 || s.y < 50; };
 let semTamanho = vazio();
-const refazer = () => { map.invalidateSize({animate: false}); if (semTamanho && !vazio()) { semTamanho = false; map.fitBounds(zonasGrp.getBounds(), {padding: [20, 20]}); } else if (vazio()) semTamanho = true; };
+const refazer = () => { map.invalidateSize({animate: false}); if (semTamanho && !vazio()) { semTamanho = false; enquadrar(); } else if (vazio()) semTamanho = true; };
 new ResizeObserver(refazer).observe(document.getElementById('map')); window.addEventListener('resize', refazer); window.addEventListener('load', () => { semTamanho = true; refazer(); });
 
 </script></body></html>
