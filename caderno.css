@@ -136,3 +136,22 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
   .rolagem{overflow:visible}.rolagem .s116-tabela{min-width:0;font-size:9pt}
   a{color:inherit;text-decoration:none}
 }
+
+/* Termos de uso no topo (abaixo do cabeçalho fixo, acima do hero) */
+.termos{margin-top:74px;background:var(--azul-profundo);color:#fff;border-bottom:6px solid var(--caraibeira);position:relative;z-index:5}
+.termos details{max-width:1400px;padding:14px clamp(24px,6vw,110px)}
+.termos summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;font-size:15px;line-height:1.4}
+.termos summary::-webkit-details-marker{display:none}
+.termos__rotulo{font-weight:700;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--caraibeira)}
+.termos__chamada{color:var(--azul-nevoa)}
+.termos__abrir{margin-left:auto;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid currentColor}
+.termos details[open] .termos__abrir{visibility:hidden}
+.termos ul{margin:14px 0 6px;padding-left:18px;columns:2;column-gap:40px;font-size:14px;line-height:1.45;color:var(--azul-nevoa)}
+.termos li{break-inside:avoid;margin-bottom:8px}
+.termos li strong{color:#fff}
+.termos__nota{font-size:12px;color:var(--azul-ceu);margin:4px 0 0}
+.termos summary:focus-visible{outline:2px solid var(--caraibeira);outline-offset:3px}
+.termos + .hero .hero__texto{padding-top:90px}
+@media (max-width:1024px){.termos ul{columns:1}.termos__abrir{margin-left:0}}
+@media (max-width:640px){.termos{margin-top:64px}}
+@media print{.termos{margin-top:0;background:none;color:var(--azul-profundo);border:1px solid var(--filete)}.termos details>*:not(summary){display:block}.termos ul,.termos__chamada,.termos li strong{color:var(--azul-profundo)}.termos__abrir{display:none}}
