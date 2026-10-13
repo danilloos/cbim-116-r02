@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#064B63">
+<meta name="description" content="Codificador de Projetos da Concessionária 116 Sertões: monta o código de arquivo CCS e indica a pasta do SharePoint.">
+<title>Codificador de Projetos · 116 Sertões</title>
+<link rel="icon" href="simbolo-116.svg">
+<link rel="stylesheet" href="codificador.css">
+</head>
+<body>
+<a class="pular" href="#form">Pular para o formulário</a>
+<header class="topo">
+  <img src="logo-116.svg" alt="116 Sertões" width="132" height="45">
+  <div class="topo__titulo"><span class="eyebrow">Central BIM</span><strong>Codificador de Projetos</strong></div>
+  <nav class="topo__links" aria-label="Links">
+    <a id="lnk-central" href="#" target="_blank" rel="noopener">Central BIM 116 Sertões</a>
+    <a href="https://danilloos.github.io/cbim-116-r02/" target="_blank" rel="noopener">Caderno BIM em tela</a>
+  </nav>
+</header>
+
+<main>
+  <section class="abertura">
+    <h1>O nome certo e a pasta certa, <span class="destaque">sem decorar código.</span></h1>
+    <p>Escolha em palavras o que o arquivo é. O codificador monta o código da Portaria SUROD 12/2025 com as tabelas da 116 Sertões e diz em que pasta do SharePoint ele fica.</p>
+  </section>
+
+  <div class="grade">
+    <form id="form" class="form" autocomplete="off" novalidate>
+      <fieldset class="passo">
+        <legend><span class="num">1</span> Onde fica a obra?</legend>
+        <div id="campo-tramo"></div>
+        <button type="button" class="link" id="btn-manual" aria-expanded="false" aria-controls="manual">A obra não está na lista? Informe o local</button>
+        <div id="manual" class="manual" hidden>
+          <p class="ajuda" id="manual-motivo">Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).</p>
+          <div class="linha">
+            <label>Rodovia<select id="m-rodovia"></select></label>
+            <label>km inicial (PER)<input id="m-kmini" inputmode="decimal" placeholder="ex.: 288,350"></label>
+            <label>km final (PER)<input id="m-kmfim" inputmode="decimal" placeholder="vazio = ponto"></label>
+          </div>
+          <div id="campo-obra"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="passo">
+        <legend><span class="num">2</span> Em que fase está o trabalho?</legend>
+        <div id="campo-fase"></div>
+      </fieldset>
+
+      <fieldset class="passo">
+        <legend><span class="num">3</span> Qual é a disciplina?</legend>
+        <div id="campo-disc"></div>
+      </fieldset>
+
+      <fieldset class="passo">
+        <legend><span class="num">4</span> Que tipo de documento é?</legend>
+        <div id="campo-cat"></div>
+      </fieldset>
+
+      <fieldset class="passo">
+        <legend><span class="num">5</span> Número e revisão</legend>
+        <div class="linha">
+          <label>Número do documento<input id="seq" inputmode="numeric" value="1" aria-describedby="seq-ajuda"></label>
+          <label>Revisão<input id="rev" inputmode="numeric" value="0" aria-describedby="rev-ajuda"></label>
+        </div>
+        <p class="ajuda" id="seq-ajuda">Sequência dentro da mesma disciplina e tipo de documento: 1, 2, 3... Modelo BIM por segmento usa o segmento (ex.: S02).</p>
+        <p class="ajuda" id="rev-ajuda">Revisão 0 é a primeira emissão. A revisão só sobe quando o arquivo é emitido de novo.</p>
+        <button type="button" class="link" id="btn-seg" hidden>Usar o segmento da obra no número</button>
+      </fieldset>
+      <button type="reset" class="botao botao--contorno" id="btn-limpar">Recomeçar</button>
+    </form>
+
+    <aside class="resultado" aria-live="polite" aria-labelledby="res-titulo">
+      <h2 id="res-titulo" class="eyebrow">Resultado</h2>
+      <div id="res-vazio" class="vazio">
+        <p>Preencha os passos ao lado. O código aparece aqui à medida que você escolhe.</p>
+        <ol id="faltam"></ol>
+      </div>
+      <div id="res" hidden>
+        <div class="codigo">
+          <p class="rotulo">Nome do arquivo no CDE</p>
+          <p class="valor" id="out-ccs"></p>
+          <button type="button" class="botao" data-copiar="out-ccs">Copiar nome</button>
+          <p class="ajuda">Acrescente só a extensão (.pdf, .dwg, .ifc...). Sem espaços nem acentos.</p>
+        </div>
+        <div class="codigo codigo--sec">
+          <p class="rotulo">Nome para protocolo na ANTT (SEI)</p>
+          <p class="valor" id="out-antt"></p>
+          <button type="button" class="botao botao--contorno" data-copiar="out-antt" id="btn-antt">Copiar nome ANTT</button>
+        </div>
+        <div class="codigo codigo--sec">
+          <p class="rotulo">Identificador ANTT (capa e volumes)</p>
+          <p class="valor valor--peq" id="out-ident"></p>
+        </div>
+        <ul id="avisos" class="avisos"></ul>
+
+        <h3>Salvar em</h3>
+        <ol class="trilha" id="out-trilha"></ol>
+        <p class="ajuda" id="out-trilha-nota"></p>
+        <div class="acoes">
+          <a class="botao" id="out-abrir" target="_blank" rel="noopener">Abrir a pasta no SharePoint</a>
+          <button type="button" class="botao botao--contorno" data-copiar="out-caminho">Copiar caminho</button>
+        </div>
+        <p class="oculto" id="out-caminho"></p>
+
+        <h3>Localização</h3>
+        <p id="out-local"></p>
+
+        <h3>Metadados do arquivo no CDE</h3>
+        <table class="meta"><tbody id="out-meta"></tbody></table>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="rodape">
+  <p>Regras: Caderno BIM 116 Sertões, Volume II, Seções 6.4 e 6.7, e Anexo A.3. Em divergência, valem o Caderno e o gerador do Anexo A.3.</p>
+  <p id="rodape-fontes"></p>
+</footer>
+<script src="dados.js"></script>
+<script src="codificador.core.js"></script>
+<script src="codificador.app.js"></script>
+</body>
+</html>
