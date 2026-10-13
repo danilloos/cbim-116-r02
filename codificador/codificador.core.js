@@ -9,6 +9,7 @@
   const BIBLIOTECAS = { CDEINFR: '02 CDE-INFR', CDEEDIF: '03 CDE-EDIF' };
   const FASES_COM_PASTA = new Set(['ANT', 'EXO']);           // criadas em cada tramo (gerar_config_zonas.py)
   const CATEGORIAS_COM_PASTA = new Set(['PRC', 'MEM', 'MOD', 'PLQ']); // nível 5, só no EXO (_MODELO_TRAMO)
+  const SEM_SEGMENTO = '(segmento a definir)';
 
   const pad = (n, w) => String(n).padStart(w, '0');
 
@@ -74,11 +75,13 @@
     return { ident, ccs, antt, avisos };
   }
 
-  /** Caminho no SharePoint da zona. Devolve níveis, quantos já existem e o link da pasta existente mais funda. */
+  /** Caminho no SharePoint da zona. Devolve níveis, quantos já existem, o link da pasta existente mais funda
+      e o caminho em texto (nomes exibidos, para o projetista conferir; não é URL). */
   function caminho({ site, lib, pasta, tramo, fase, ddd, ttt }) {
     const niveis = [BIBLIOTECAS[lib]];
     let existe = 1;
     if (pasta) { niveis.push(pasta); existe = 2; }
+    else if (tramo) niveis.push(SEM_SEGMENTO);  // tramos da Z00 ainda sem pasta de segmento
     if (tramo) {
       niveis.push(tramo);
       if (pasta) existe = 3;
@@ -89,7 +92,7 @@
     }
     const rel = [`/sites/${site}/${lib}`, ...niveis.slice(1, existe)].join('/');
     const url = `${ORIGEM}/sites/${site}/${lib}/Forms/AllItems.aspx?id=${encodeURIComponent(rel)}`;
-    return { niveis, existe, url, site: `${ORIGEM}/sites/${site}` };
+    return { niveis, existe, url, site: `${ORIGEM}/sites/${site}`, texto: [site, ...niveis].join(' / ') };
   }
 
   const normalizar = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -109,10 +112,21 @@
     return faixas[0].concat(faixas[1]);
   }
 
-  /** Segmento que contém o km na rodovia (local informado à mão). */
+  /** Segmento que contém o km na rodovia (local informado à mão). Intervalo semiaberto [início, fim):
+      o km de fronteira fica no segmento que começa nele; o fim do último segmento da rodovia vale como dentro. */
   function localizarSegmento(dados, rodovia, km) {
     const k = Number(km);
-    return dados.segmentos.find(s => s.rodovia === rodovia && k >= s.kmIni && k <= s.kmFim) || null;
+    const daRodovia = dados.segmentos.filter(s => s.rodovia === rodovia);
+    return daRodovia.find(s => k >= s.kmIni && k < s.kmFim)
+      || daRodovia.find(s => k === s.kmFim && !daRodovia.some(o => o.kmIni === s.kmFim))
+      || null;
+  }
+
+  /** km digitado: até 3 dígitos inteiros e 3 decimais, vírgula ou ponto. Vazio = null; inválido = NaN. */
+  function lerKm(v) {
+    const s = String(v ?? '').trim();
+    if (!s) return null;
+    return /^\d{1,3}([.,]\d{1,3})?$/.test(s) ? Number(s.replace(',', '.')) : NaN;
   }
 
   const fmtKm = k => Number(k).toFixed(3).replace('.', ',');
@@ -124,7 +138,7 @@
   }
 
   const api = { CONCESSIONARIA, BIBLIOTECAS, blocoLocal, identificador, normSeq, normRev, montar, caminho,
-                normalizar, filtrar, localizarSegmento, fmtKm, lerDadosArquivo };
+                normalizar, filtrar, localizarSegmento, lerKm, fmtKm, lerDadosArquivo, SEM_SEGMENTO };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else raiz.CCSCore = api;
 })(this);

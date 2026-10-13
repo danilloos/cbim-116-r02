@@ -41,6 +41,7 @@
     const abrir = () => {
       visiveis = C.filtrar(opcoes, atual && inp.value === atual.rotulo ? '' : inp.value);
       lista.replaceChildren();
+      inp.removeAttribute('aria-activedescendant');
       let grupo = null;
       visiveis.slice(0, MAX_LISTA).forEach((o, i) => {
         if (o.grupo && o.grupo !== grupo) { grupo = o.grupo; const g = el('li', 'grupo', grupo); g.setAttribute('role', 'presentation'); lista.append(g); }
@@ -50,8 +51,9 @@
         li.addEventListener('mousedown', ev => { ev.preventDefault(); escolher(o); });
         lista.append(li);
       });
-      if (!visiveis.length) lista.append(el('li', 'nada', 'Nada encontrado. Tente outra palavra.'));
-      else if (visiveis.length > MAX_LISTA) lista.append(el('li', 'nada', `Mais ${visiveis.length - MAX_LISTA} resultados: escreva mais uma palavra para filtrar.`));
+      const aviso = txt => { const li = el('li', 'nada', txt); li.setAttribute('role', 'option'); li.setAttribute('aria-disabled', 'true'); lista.append(li); };
+      if (!visiveis.length) aviso('Nada encontrado. Tente outra palavra.');
+      else if (visiveis.length > MAX_LISTA) aviso(`Mais ${visiveis.length - MAX_LISTA} resultados: escreva mais uma palavra para filtrar.`);
       lista.hidden = false; inp.setAttribute('aria-expanded', 'true'); ativo = -1;
     };
     function escolher(o, silencioso) {
@@ -92,7 +94,7 @@
 
   const campos = {
     tramo: criarCampo($('campo-tramo'), { rotulo: 'Obra ou trecho', dica: 'Digite o nome da obra, cidade ou km (ex.: duplicação Tucano)', opcoes: opTramos,
-      aoEscolher: v => { estado.tramo = v; ajustarManual(); atualizar(); } }),
+      aoEscolher: v => { estado.tramo = v; if (v) estado.manual = false; limparManual(); ajustarManual(); atualizar(); } }),
     fase: criarCampo($('campo-fase'), { rotulo: 'Fase ou tipo de serviço', dica: 'ex.: executivo, anteprojeto, as built, inspeção', opcoes: opFases,
       aoEscolher: v => { estado.fase = v; atualizar(); } }),
     disc: criarCampo($('campo-disc'), { rotulo: 'Disciplina', dica: 'ex.: drenagem, geometria, estrutura, sinalização', opcoes: opDisc,
@@ -103,16 +105,20 @@
       aoEscolher: v => { estado.obraManual = v; atualizar(); } }),
   };
 
+  { const vazio = el('option', null, 'Escolha a rodovia'); vazio.value = ''; $('m-rodovia').append(vazio); }
   D.rodovias.forEach(r => { const o = el('option', null, r.nome); o.value = r.nome; $('m-rodovia').append(o); });
   $('lnk-central').href = D.centralBim;
   $('rodape-fontes').textContent = `Fontes: ${D.fontes}. Dados gerados em ${D.geradoEm.split('-').reverse().join('/')}.`;
 
   /* ---------- local informado à mão ---------- */
   const semLocal = t => t && (t.rodCod == null || t.kmIni == null);
+  function limparManual() {
+    $('m-kmini').value = ''; $('m-kmfim').value = ''; $('m-rodovia').selectedIndex = 0;
+  }
   function ajustarManual() {
     const precisa = estado.manual || semLocal(estado.tramo);
     $('manual').hidden = !precisa;
-    $('btn-manual').setAttribute('aria-expanded', String(estado.manual));
+    $('btn-manual').setAttribute('aria-expanded', String(precisa));
     $('btn-manual').textContent = estado.manual ? 'Voltar para a lista de obras' : 'A obra não está na lista? Informe o local';
     $('campo-obra').hidden = !estado.manual;
     const t = estado.tramo;
@@ -128,11 +134,12 @@
   $('btn-manual').addEventListener('click', () => {
     estado.manual = !estado.manual;
     if (estado.manual) { estado.tramo = null; campos.tramo.limpar(); }
+    limparManual();
     ajustarManual(); atualizar();
   });
   ['m-rodovia', 'm-kmini', 'm-kmfim', 'seq', 'rev'].forEach(i => $(i).addEventListener('input', atualizar));
 
-  const lerKm = v => { const s = String(v || '').trim().replace(',', '.'); if (!s) return null; const n = Number(s); return Number.isFinite(n) && n >= 0 && n < 1000 ? n : NaN; };
+  const lerKm = C.lerKm;
 
   /** Onde a obra está: rodovia, bloco 3, tipo de obra, zona, segmento, tramo e biblioteca. */
   function localizacao(faltam, avisos) {
@@ -144,10 +151,11 @@
     const rodNome = $('m-rodovia').value;
     const kmIni = lerKm($('m-kmini').value), kmFim = lerKm($('m-kmfim').value);
     const obra = t ? t.obra : estado.obraManual;
+    if (!rodNome) faltam.push('Escolha a rodovia (passo 1).');
     if (kmIni == null) faltam.push('Informe o km inicial (passo 1).');
     if (!obra) faltam.push('Escolha o tipo de obra (passo 1).');
-    if (Number.isNaN(kmIni) || Number.isNaN(kmFim)) { avisos.push('km inválido: use número entre 0 e 999,999, com vírgula.'); return null; }
-    if (kmIni == null || !obra) return null;
+    if (Number.isNaN(kmIni) || Number.isNaN(kmFim)) { avisos.push('km inválido: use até três casas decimais, com vírgula (ex.: 288,350).'); return null; }
+    if (kmIni == null || !obra || !rodNome) return null;
     if (kmFim != null && kmFim <= kmIni) { avisos.push('O km final precisa ser maior que o inicial. Para um ponto, deixe o km final vazio.'); return null; }
     const rod = D.rodovias.find(r => r.nome === rodNome).cod;
     if (t) return { rodNome, rod, kmIni, kmFim, snv: null, obra, zona: t.zona, pasta: t.pasta, tramo: t.tramo, lib: t.lib, t };
@@ -187,17 +195,22 @@
     $('out-ccs').classList.toggle('pendente', !r.ccs);
     $('out-antt').textContent = r.antt || 'Sem nome de protocolo para esta combinação (veja os avisos).';
     $('out-antt').classList.toggle('pendente', !r.antt);
-    $('btn-antt').setAttribute('aria-disabled', String(!r.antt));
+    $('btn-antt').disabled = !r.antt;
+    $('btn-ccs').disabled = !r.ccs;
     $('out-ident').textContent = r.ident;
+    $('status').textContent = r.ccs ? `Código pronto: ${r.ccs}` : 'Código incompleto: confira o número e a revisão.';
     $('avisos').replaceChildren(...[...r.avisos, ...avisos].map(a => el('li', null, a)));
 
     $('out-trilha').replaceChildren(...cam.niveis.map((n, i) => el('li', i < cam.existe ? null : 'criar', n)));
     const faltaCriar = cam.niveis.length - cam.existe;
-    $('out-trilha-nota').textContent = `Site ${zonaPorId[loc.zona].titulo}. ` + (faltaCriar
-      ? `As ${faltaCriar} pasta(s) tracejada(s) ainda não existem: copie a estrutura de _MODELO_TRAMO da mesma biblioteca para dentro do tramo.`
-      : 'Todas as pastas já existem.');
+    const semSegmento = loc.tramo && !loc.pasta;
+    $('out-trilha-nota').textContent = `Site ${zonaPorId[loc.zona].titulo}. ` + (semSegmento
+      ? 'Esta obra ainda não tem pasta de segmento no site. Combine com a Gestão da Informação onde criar a pasta do tramo antes de salvar.'
+      : faltaCriar
+        ? `As ${faltaCriar} pasta(s) tracejada(s) ainda não existem: copie a estrutura de _MODELO_TRAMO da mesma biblioteca para dentro do tramo.`
+        : 'Todas as pastas já existem.');
     $('out-abrir').href = cam.url;
-    $('out-caminho').textContent = `${cam.site}/${cam.niveis.join('/')}`;
+    $('out-caminho').textContent = cam.texto;
 
     const local = `${loc.rodNome} km ${C.fmtKm(loc.kmIni)}${loc.kmFim != null ? ` a ${C.fmtKm(loc.kmFim)}` : ''} PER`;
     $('out-local').textContent = loc.snv ? `${local} / ${loc.snv} SNV (DNIT 202607A)` : `${local} / km SNV: converta pelo conversor PER × SNV 202607A antes de preencher os metadados.`;
@@ -242,7 +255,9 @@
     if (m) { $('seq').value = `S${m[1]}`; atualizar(); }
   });
   document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
-    const txt = $(b.dataset.copiar).textContent;
+    const alvo = $(b.dataset.copiar);
+    if (b.disabled || alvo.classList.contains('pendente')) return;  // nunca copia mensagem no lugar de código
+    const txt = alvo.textContent;
     const original = b.textContent;
     try { await navigator.clipboard.writeText(txt); b.textContent = 'Copiado'; }
     catch (e) { b.textContent = 'Não copiou: selecione e use Ctrl+C'; }

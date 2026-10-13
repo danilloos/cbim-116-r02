@@ -72,7 +72,8 @@
       <button type="reset" class="botao botao--contorno" id="btn-limpar">Recomeçar</button>
     </form>
 
-    <aside class="resultado" aria-live="polite" aria-labelledby="res-titulo">
+    <aside class="resultado" aria-labelledby="res-titulo">
+      <p class="oculto" id="status" role="status" aria-live="polite"></p>
       <h2 id="res-titulo" class="eyebrow">Resultado</h2>
       <div id="res-vazio" class="vazio">
         <p>Preencha os passos ao lado. O código aparece aqui à medida que você escolhe.</p>
@@ -82,7 +83,7 @@
         <div class="codigo">
           <p class="rotulo">Nome do arquivo no CDE</p>
           <p class="valor" id="out-ccs"></p>
-          <button type="button" class="botao" data-copiar="out-ccs">Copiar nome</button>
+          <button type="button" class="botao" data-copiar="out-ccs" id="btn-ccs">Copiar nome</button>
           <p class="ajuda">Acrescente só a extensão (.pdf, .dwg, .ifc...). Sem espaços nem acentos.</p>
         </div>
         <div class="codigo codigo--sec">
@@ -101,7 +102,7 @@
         <p class="ajuda" id="out-trilha-nota"></p>
         <div class="acoes">
           <a class="botao" id="out-abrir" target="_blank" rel="noopener">Abrir a pasta no SharePoint</a>
-          <button type="button" class="botao botao--contorno" data-copiar="out-caminho">Copiar caminho</button>
+          <button type="button" class="botao botao--contorno" data-copiar="out-caminho">Copiar caminho (texto)</button>
         </div>
         <p class="oculto" id="out-caminho"></p>
 
