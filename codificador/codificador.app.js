@@ -115,9 +115,15 @@
     $('btn-manual').setAttribute('aria-expanded', String(estado.manual));
     $('btn-manual').textContent = estado.manual ? 'Voltar para a lista de obras' : 'A obra não está na lista? Informe o local';
     $('campo-obra').hidden = !estado.manual;
-    $('manual-motivo').textContent = semLocal(estado.tramo)
-      ? 'Esta obra ainda não tem km no PER (localização a definir). Informe rodovia e km do PER vigente; deixe o km final vazio para um ponto.'
-      : 'Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).';
+    const t = estado.tramo;
+    let motivo = 'Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).';
+    if (semLocal(t) && t.kmIni == null) motivo = 'Esta obra ainda não tem km no PER (localização a definir). Informe rodovia e km do PER vigente; deixe o km final vazio para um ponto.';
+    else if (semLocal(t)) {
+      motivo = `A lista mestre não define o código de rodovia para "${t.rodovia}". Escolha a rodovia do código ANTT; o km já veio da lista mestre.`;
+      $('m-kmini').value = C.fmtKm(t.kmIni);
+      $('m-kmfim').value = t.kmFim != null ? C.fmtKm(t.kmFim) : '';
+    }
+    $('manual-motivo').textContent = motivo;
   }
   $('btn-manual').addEventListener('click', () => {
     estado.manual = !estado.manual;
