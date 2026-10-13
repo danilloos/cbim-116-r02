@@ -260,7 +260,14 @@
     const txt = alvo.textContent;
     const original = b.textContent;
     try { await navigator.clipboard.writeText(txt); b.textContent = 'Copiado'; }
-    catch (e) { b.textContent = 'Não copiou: selecione e use Ctrl+C'; }
+    catch (e) {
+      // dentro do iframe da Central BIM a API pode ser bloqueada (o SharePoint remove allow="clipboard-write")
+      const area = el('textarea'); area.value = txt; area.setAttribute('readonly', ''); area.className = 'oculto';
+      document.body.append(area); area.select();
+      const ok = document.execCommand('copy');
+      area.remove();
+      b.textContent = ok ? 'Copiado' : 'Não copiou: selecione e use Ctrl+C';
+    }
     setTimeout(() => { b.textContent = original; }, 1600);
   }));
   $('form').addEventListener('reset', () => {
