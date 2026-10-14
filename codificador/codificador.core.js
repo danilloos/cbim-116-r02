@@ -130,6 +130,27 @@
   }
 
   const fmtKm = k => Number(k).toFixed(3).replace('.', ',');
+  /** Texto da lista mestre para exibir: travessão e meia-risca de intervalo viram "a" (DS 116: sem travessão). */
+  const semTraco = t => String(t ?? '').replace(/\s*[–—]\s*/g, ' a ');
+
+  /** Tramos de uma zona para o menu em cascata: agrupados pelo tipo de obra principal (2º termo da pasta do tramo,
+      ex.: "T07 DPL 289-322" -> DPL), grupos em ordem alfabética, tramos pelo número; n = obrigações no tramo. */
+  function tramosDaZona(obrigacoes, zona, nomeObra) {
+    const porId = new Map();
+    for (const o of obrigacoes) {
+      if (o.zona !== zona || !o.tramoId) continue;
+      const t = porId.get(o.tramoId) || { id: o.tramoId, pasta: o.tramo, nome: o.tramoNome, obra: String(o.tramo).split(' ')[1], n: 0 };
+      t.n++;
+      porId.set(o.tramoId, t);
+    }
+    const grupos = new Map();
+    for (const t of [...porId.values()].sort((a, b) => a.id.localeCompare(b.id))) {
+      const g = nomeObra[t.obra] || t.obra;
+      if (!grupos.has(g)) grupos.set(g, []);
+      grupos.get(g).push(t);
+    }
+    return [...grupos].sort((a, b) => a[0].localeCompare(b[0], 'pt')).map(([grupo, tramos]) => ({ grupo, tramos }));
+  }
 
   /** Lê dados.js (window.CCS_DADOS = {...};) fora do navegador. */
   function lerDadosArquivo(arquivo) {
@@ -138,7 +159,7 @@
   }
 
   const api = { CONCESSIONARIA, BIBLIOTECAS, blocoLocal, identificador, normSeq, normRev, montar, caminho,
-                normalizar, filtrar, localizarSegmento, lerKm, fmtKm, lerDadosArquivo, SEM_SEGMENTO };
+                normalizar, filtrar, localizarSegmento, lerKm, fmtKm, tramosDaZona, semTraco, lerDadosArquivo, SEM_SEGMENTO };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else raiz.CCSCore = api;
 })(this);

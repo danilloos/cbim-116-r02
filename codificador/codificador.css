@@ -118,10 +118,26 @@ input:focus, select:focus { border-color: var(--via); outline: none; box-shadow:
 .rodape { padding: 1.5rem clamp(1rem, 4vw, 3rem) 2.5rem; color: var(--cinza); font-size: .88rem; max-width: 1360px; margin: 0 auto; }
 .rodape p { margin: .25rem 0; }
 
-@media (prefers-reduced-motion: reduce) { .botao { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .botao, .zona { transition: none; } }
 @media print { .form, .topo__links, .acoes, .botao { display: none !important; } .resultado { position: static; color: #000; background: #fff; } }
 @media (max-width: 640px) {
   .topo { flex-wrap: wrap; }
   .topo__links { margin-left: 0; width: 100%; gap: 1rem; font-size: .92rem; }
   .resultado { position: static; }
 }
+
+/* cascata do passo 1: zona (escolha única) -> tramo -> obrigação */
+#cascata { display: grid; gap: .55rem; margin-bottom: .6rem; }
+#cascata[hidden] { display: none; }
+.rotulo-campo { margin: 0; font-weight: 600; font-size: .92rem; }
+.zonas { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.4rem, 1fr)); gap: .4rem; margin-bottom: .5rem; }
+.zona { position: relative; display: grid; gap: .1rem; min-width: 0; font-size: 1rem; padding: .5rem .6rem; border: 1px solid var(--linha); border-radius: var(--raio);
+        background: var(--branco); cursor: pointer; transition: border-color .15s, background-color .15s; }
+.zona input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.zona b { font: 700 .95rem/1.1 var(--titulo); color: var(--profundo); }
+.zona small { color: var(--cinza); font-size: .76rem; line-height: 1.2; }
+.zona:hover { border-color: var(--via); }
+.zona:has(input:checked) { background: var(--profundo); border-color: var(--profundo); }
+.zona:has(input:checked) b, .zona:has(input:checked) small { color: var(--branco); }
+.zona:has(input:focus-visible) { outline: 3px solid var(--caraibeira); outline-offset: 2px; }
+#sel-tramo:disabled { opacity: .6; cursor: not-allowed; }

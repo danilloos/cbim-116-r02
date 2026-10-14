@@ -11,9 +11,9 @@
   const segPorPasta = Object.fromEntries(D.segmentos.map(s => [s.pasta, s]));
   const obraNome = Object.fromEntries(D.tiposObra.map(o => [o.cod, o.nome]));
   const OBRAS_EDIF = new Set(D.tramos.filter(t => t.lib === 'CDEEDIF').map(t => t.obra));
-  const snvTexto = s => String(s || '').replace(/[–—]/g, ' a ');
+  const snvTexto = C.semTraco;
 
-  const estado = { tramo: null, manual: false, obraManual: null, fase: null, disc: null, cat: null };
+  const estado = { zona: null, tramoId: null, tramo: null, manual: false, obraManual: null, fase: null, disc: null, cat: null };
 
   /* ---------- campo de busca acessível (combobox com lista filtrada) ---------- */
   let seqCampo = 0;
@@ -30,7 +30,7 @@
     caixa.append(inp, limpar, lista);
     destino.append(lab, caixa, escolha);
 
-    let visiveis = [], ativo = -1, atual = null;
+    let visiveis = [], ativo = -1, atual = null, ops = opcoes;
     const marcar = i => {
       ativo = i;
       lista.querySelectorAll('[role=option]').forEach((li, k) => li.setAttribute('aria-selected', String(k === i)));
@@ -39,7 +39,7 @@
     };
     const fechar = () => { lista.hidden = true; inp.setAttribute('aria-expanded', 'false'); inp.removeAttribute('aria-activedescendant'); };
     const abrir = () => {
-      visiveis = C.filtrar(opcoes, atual && inp.value === atual.rotulo ? '' : inp.value);
+      visiveis = C.filtrar(ops, atual && inp.value === atual.rotulo ? '' : inp.value);
       lista.replaceChildren();
       inp.removeAttribute('aria-activedescendant');
       let grupo = null;
@@ -76,13 +76,14 @@
       else if (ev.key === 'Escape') fechar();
     });
     limpar.addEventListener('click', () => { escolher(null); inp.focus(); });
-    return { limpar: () => escolher(null, true), definir: v => escolher(opcoes.find(o => o.valor === v) || null) };
+    return { limpar: () => escolher(null, true), definir: v => escolher(ops.find(o => o.valor === v) || null),
+             trocar: novas => { ops = novas; escolher(null, true); } };
   }
 
   /* ---------- opções em texto amigável ---------- */
   const kmTexto = t => t.kmIni == null ? 'localização a definir' : `${t.rodovia} km ${C.fmtKm(t.kmIni)}${t.kmFim != null ? ` a ${C.fmtKm(t.kmFim)}` : ''}`;
   const opTramos = D.tramos.map(t => ({
-    valor: t, codigo: t.id, grupo: `${t.zona} ${zonaPorId[t.zona]?.nome || ''}`,
+    valor: t, codigo: t.id, grupo: t.obraNome,
     rotulo: `${t.desc}${t.subtipo ? ` (${t.subtipo})` : ''}`,
     detalhe: `${t.segNome ? `${t.segNome} · ` : ''}${kmTexto(t)}${t.parteKm ? ` · parte km ${C.fmtKm(t.parteKm[0])} a ${C.fmtKm(t.parteKm[1])}` : ''}${t.tramoId ? ` · tramo ${t.tramoId}${t.classe === 'U' ? ' (urbano)' : ''}` : ''}`,
     sinonimos: `${t.obraNome} ${t.obra} ${t.id} ${t.tramoId || ''} ${t.tramo} ${t.tramoNome || ''} ${t.tu || ''} ${t.pasta || ''} ${zonaPorId[t.zona]?.titulo || ''}`,
@@ -93,7 +94,7 @@
   const opObras = D.tiposObra.map(o => ({ valor: o.cod, rotulo: o.nome, codigo: o.cod }));
 
   const campos = {
-    tramo: criarCampo($('campo-tramo'), { rotulo: 'Obra ou trecho', dica: 'Digite o nome da obra, cidade ou km (ex.: duplicação Tucano)', opcoes: opTramos,
+    tramo: criarCampo($('campo-tramo'), { rotulo: 'Obrigação do PER no tramo', dica: 'ex.: duplicação, passarela, retorno, km', opcoes: [],
       aoEscolher: v => { estado.tramo = v; if (v) estado.manual = false; limparManual(); ajustarManual(); atualizar(); } }),
     fase: criarCampo($('campo-fase'), { rotulo: 'Fase ou tipo de serviço', dica: 'ex.: executivo, anteprojeto, as built, inspeção', opcoes: opFases,
       aoEscolher: v => { estado.fase = v; atualizar(); } }),
@@ -104,6 +105,38 @@
     obra: criarCampo($('campo-obra'), { rotulo: 'Tipo de obra', dica: 'ex.: duplicação, acesso, ponte, base operacional', opcoes: opObras,
       aoEscolher: v => { estado.obraManual = v; atualizar(); } }),
   };
+
+  /* ---------- cascata: zona (botões) -> tramo (menu agrupado por tipo de obra) -> obrigação ---------- */
+  D.zonas.forEach(z => {
+    const lab = el('label', 'zona');
+    const r = el('input'); r.type = 'radio'; r.name = 'zona'; r.value = z.id;
+    lab.append(r, el('b', null, z.id), el('small', null, z.titulo.replace(z.id, '').trim() || z.nome));
+    lab.title = z.nome;
+    r.addEventListener('change', () => escolherZona(z.id));
+    $('zonas').append(lab);
+  });
+  function escolherZona(id) {
+    estado.zona = id; estado.tramoId = null; estado.tramo = null;
+    const sel = $('sel-tramo');
+    sel.replaceChildren(Object.assign(el('option', null, id ? 'Escolha o tramo' : 'Escolha a zona primeiro'), { value: '' }));
+    for (const g of id ? C.tramosDaZona(D.tramos, id, obraNome) : []) {
+      const og = el('optgroup'); og.label = g.grupo;
+      g.tramos.forEach(t => og.append(Object.assign(el('option', null, `${t.pasta} · ${C.semTraco(t.nome)}${t.n > 1 ? ` (${t.n} obrigações)` : ''}`), { value: t.id })));
+      sel.append(og);
+    }
+    sel.disabled = !id;
+    escolherTramo('');
+  }
+  function escolherTramo(id) {
+    estado.tramoId = id || null; estado.tramo = null;
+    // agrupadas por tipo de obra (ordenação estável: dentro do tipo, segue a ordem de km da lista mestre)
+    const ops = id ? opTramos.filter(o => o.valor.tramoId === id).sort((a, b) => a.grupo.localeCompare(b.grupo, 'pt')) : [];
+    campos.tramo.trocar(ops);
+    $('campo-tramo').hidden = ops.length < 2;  // tramo de uma obrigação só: ela já vem escolhida
+    if (ops.length === 1) campos.tramo.definir(ops[0].valor);
+    else { limparManual(); ajustarManual(); atualizar(); }
+  }
+  $('sel-tramo').addEventListener('change', ev => escolherTramo(ev.target.value));
 
   { const vazio = el('option', null, 'Escolha a rodovia'); vazio.value = ''; $('m-rodovia').append(vazio); }
   D.rodovias.forEach(r => { const o = el('option', null, r.nome); o.value = r.nome; $('m-rodovia').append(o); });
@@ -122,6 +155,7 @@
     $('manual').hidden = !precisa;
     $('btn-manual').setAttribute('aria-expanded', String(precisa));
     $('btn-manual').textContent = estado.manual ? 'Voltar para a lista de obras' : 'A obra não está na lista? Informe o local';
+    $('cascata').hidden = estado.manual;
     $('campo-obra').hidden = !estado.manual;
     const t = estado.tramo;
     let motivo = 'Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).';
@@ -135,7 +169,7 @@
   }
   $('btn-manual').addEventListener('click', () => {
     estado.manual = !estado.manual;
-    if (estado.manual) { estado.tramo = null; campos.tramo.limpar(); }
+    if (estado.manual) { document.querySelectorAll('input[name=zona]').forEach(r => { r.checked = false; }); escolherZona(null); }
     limparManual();
     ajustarManual(); atualizar();
   });
@@ -149,7 +183,10 @@
     if (t && !semLocal(t)) {
       return { rodNome: t.rodovia, rod: t.rodCod, kmIni: t.kmIni, kmFim: t.kmFim, snv: snvTexto(t.snv), obra: t.obra, zona: t.zona, pasta: t.pasta, tramo: t.tramo, lib: t.lib, t };
     }
-    if (!t && !estado.manual) { faltam.push('Escolha a obra (passo 1).'); return null; }
+    if (!t && !estado.manual) {
+      faltam.push(!estado.zona ? 'Escolha a zona (passo 1).' : !estado.tramoId ? 'Escolha o tramo (passo 1).' : 'Escolha a obrigação do tramo (passo 1).');
+      return null;
+    }
     const rodNome = $('m-rodovia').value;
     const kmIni = lerKm($('m-kmini').value), kmFim = lerKm($('m-kmfim').value);
     const obra = t ? t.obra : estado.obraManual;
@@ -225,7 +262,7 @@
     const linhas = [
       ['Zona', `${z.id} ${z.nome}`],
       ['Segmento', s ? `${s.pasta} (${s.nome})` : 'não definido'],
-      ['Tramo', loc.tramo ? `${loc.tramo}${t && t.tramoId ? ` (${t.tramoId}${t.tramoNome ? `: ${t.tramoNome}` : ''})` : ''}` : 'a definir com a Gestão da Informação'],
+      ['Tramo', loc.tramo ? `${loc.tramo}${t && t.tramoId ? ` (${t.tramoId}${t.tramoNome ? `: ${C.semTraco(t.tramoNome)}` : ''})` : ''}` : 'a definir com a Gestão da Informação'],
       ...(t && t.parteKm ? [['Parte da obrigação', `${t.id}: km ${C.fmtKm(t.parteKm[0])} a ${C.fmtKm(t.parteKm[1])} (o código usa o km da obrigação inteira)`]] : []),
       ['Rodovia/UF', loc.rodNome],
       ['km PER (inicial e final)', `${C.fmtKm(loc.kmIni)}${loc.kmFim != null ? ` a ${C.fmtKm(loc.kmFim)}` : ''}`],
@@ -274,9 +311,9 @@
     setTimeout(() => { b.textContent = original; }, 1600);
   }));
   $('form').addEventListener('reset', () => {
-    Object.assign(estado, { tramo: null, manual: false, obraManual: null, fase: null, disc: null, cat: null });
+    Object.assign(estado, { zona: null, tramoId: null, tramo: null, manual: false, obraManual: null, fase: null, disc: null, cat: null });
     Object.values(campos).forEach(c => c.limpar());
-    setTimeout(() => { ajustarManual(); atualizar(); }, 0);
+    setTimeout(() => { escolherZona(null); ajustarManual(); }, 0);
   });
 
   ajustarManual();

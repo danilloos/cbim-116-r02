@@ -32,7 +32,13 @@
     <form id="form" class="form" autocomplete="off" novalidate>
       <fieldset class="passo">
         <legend><span class="num">1</span> Onde fica a obra?</legend>
-        <div id="campo-tramo"></div>
+        <div id="cascata">
+          <p class="rotulo-campo" id="rot-zona">Zona</p>
+          <div class="zonas" id="zonas" role="radiogroup" aria-labelledby="rot-zona"></div>
+          <label for="sel-tramo">Tramo</label>
+          <select id="sel-tramo" disabled><option value="">Escolha a zona primeiro</option></select>
+          <div id="campo-tramo" hidden></div>
+        </div>
         <button type="button" class="link" id="btn-manual" aria-expanded="false" aria-controls="manual">A obra não está na lista? Informe o local</button>
         <div id="manual" class="manual" hidden>
           <p class="ajuda" id="manual-motivo">Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).</p>
