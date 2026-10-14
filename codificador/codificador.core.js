@@ -134,7 +134,9 @@
   const semTraco = t => String(t ?? '').replace(/\s*[–—]\s*/g, ' a ');
 
   /** Tramos de uma zona para o menu em cascata: agrupados pelo tipo de obra principal (2º termo da pasta do tramo,
-      ex.: "T07 DPL 289-322" -> DPL), grupos em ordem alfabética, tramos pelo número; n = obrigações no tramo. */
+      ex.: "T07 DPL 289-322" -> DPL), grupos em ordem alfabética, tramos pelo número; n = obrigações no tramo.
+      Tramo-pacote (SE-005: dispositivos isolados e acessos do segmento, nome "Pacote ...") vai para o grupo Pacotes, no fim. */
+  const PACOTES = 'Pacotes';
   function tramosDaZona(obrigacoes, zona, nomeObra) {
     const porId = new Map();
     for (const o of obrigacoes) {
@@ -145,11 +147,12 @@
     }
     const grupos = new Map();
     for (const t of [...porId.values()].sort((a, b) => a.id.localeCompare(b.id))) {
-      const g = nomeObra[t.obra] || t.obra;
+      const g = /^pacote\b/i.test(t.nome || '') ? PACOTES : nomeObra[t.obra] || t.obra;
       if (!grupos.has(g)) grupos.set(g, []);
       grupos.get(g).push(t);
     }
-    return [...grupos].sort((a, b) => a[0].localeCompare(b[0], 'pt')).map(([grupo, tramos]) => ({ grupo, tramos }));
+    const ordem = ([a], [b]) => (a === PACOTES) - (b === PACOTES) || a.localeCompare(b, 'pt');
+    return [...grupos].sort(ordem).map(([grupo, tramos]) => ({ grupo, tramos }));
   }
 
   /** Lê dados.js (window.CCS_DADOS = {...};) fora do navegador. */
