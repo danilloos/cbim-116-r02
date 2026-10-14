@@ -84,8 +84,8 @@
   const opTramos = D.tramos.map(t => ({
     valor: t, codigo: t.id, grupo: `${t.zona} ${zonaPorId[t.zona]?.nome || ''}`,
     rotulo: `${t.desc}${t.subtipo ? ` (${t.subtipo})` : ''}`,
-    detalhe: `${t.segNome ? `${t.segNome} · ` : ''}${kmTexto(t)}`,
-    sinonimos: `${t.obraNome} ${t.obra} ${t.tramo} ${t.pasta || ''} ${zonaPorId[t.zona]?.titulo || ''}`,
+    detalhe: `${t.segNome ? `${t.segNome} · ` : ''}${kmTexto(t)}${t.parteKm ? ` · parte km ${C.fmtKm(t.parteKm[0])} a ${C.fmtKm(t.parteKm[1])}` : ''}${t.tramoId ? ` · tramo ${t.tramoId}${t.classe === 'U' ? ' (urbano)' : ''}` : ''}`,
+    sinonimos: `${t.obraNome} ${t.obra} ${t.id} ${t.tramoId || ''} ${t.tramo} ${t.tramoNome || ''} ${t.tu || ''} ${t.pasta || ''} ${zonaPorId[t.zona]?.titulo || ''}`,
   }));
   const opFases = D.fases.map(f => ({ valor: f, rotulo: f.nome, detalhe: f.ajuda, codigo: f.obra ? `${f.obra} + ${f.proj}` : f.proj }));
   const opDisc = D.disciplinas.map(d => ({ valor: d, rotulo: d.nome, codigo: d.cod, grupo: d.grupo, sinonimos: d.sinonimos }));
@@ -108,7 +108,9 @@
   { const vazio = el('option', null, 'Escolha a rodovia'); vazio.value = ''; $('m-rodovia').append(vazio); }
   D.rodovias.forEach(r => { const o = el('option', null, r.nome); o.value = r.nome; $('m-rodovia').append(o); });
   $('lnk-central').href = D.centralBim;
-  $('rodape-fontes').textContent = `Fontes: ${D.fontes}. Dados gerados em ${D.geradoEm.split('-').reverse().join('/')}.`;
+  $('lnk-codigos').href = D.listaCodigos;
+  const dataBr = iso => iso.split('-').reverse().join('/');
+  $('rodape-fontes').textContent = `Fontes: ${D.fontes}. Tabelas exportadas da Central BIM em ${dataBr(D.exportadoEm)}; dados gerados em ${dataBr(D.geradoEm)}.`;
 
   /* ---------- local informado à mão ---------- */
   const semLocal = t => t && (t.rodCod == null || t.kmIni == null);
@@ -223,7 +225,8 @@
     const linhas = [
       ['Zona', `${z.id} ${z.nome}`],
       ['Segmento', s ? `${s.pasta} (${s.nome})` : 'não definido'],
-      ['Tramo', loc.tramo || 'a definir com a Gestão da Informação'],
+      ['Tramo', loc.tramo ? `${loc.tramo}${t && t.tramoId ? ` (${t.tramoId}${t.tramoNome ? `: ${t.tramoNome}` : ''})` : ''}` : 'a definir com a Gestão da Informação'],
+      ...(t && t.parteKm ? [['Parte da obrigação', `${t.id}: km ${C.fmtKm(t.parteKm[0])} a ${C.fmtKm(t.parteKm[1])} (o código usa o km da obrigação inteira)`]] : []),
       ['Rodovia/UF', loc.rodNome],
       ['km PER (inicial e final)', `${C.fmtKm(loc.kmIni)}${loc.kmFim != null ? ` a ${C.fmtKm(loc.kmFim)}` : ''}`],
       ['km SNV DNIT 202607A', loc.snv || 'converter'],
