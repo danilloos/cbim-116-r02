@@ -25,7 +25,7 @@
 <main>
   <section class="abertura">
     <h1>O nome certo e a pasta certa, <span class="destaque">sem decorar código.</span></h1>
-    <p>Comece pela zona e pelo tramo, depois diga o que o arquivo é. O codificador monta o código da Portaria SUROD 12/2025 com as tabelas da 116 Sertões e diz em que pasta do SharePoint ele fica.</p>
+    <p>Comece pela zona e pelo TH, depois diga o que o arquivo é. O codificador monta o código da Portaria SUROD 12/2025 com as tabelas da 116 Sertões e diz em que pasta do SharePoint ele fica.</p>
   </section>
 
   <div class="grade">
@@ -35,13 +35,13 @@
         <div id="cascata">
           <p class="rotulo-campo" id="rot-zona">Zona</p>
           <div class="zonas" id="zonas" role="radiogroup" aria-labelledby="rot-zona"></div>
-          <label for="sel-tramo">Tramo</label>
-          <select id="sel-tramo" disabled><option value="">Escolha a zona primeiro</option></select>
-          <div id="campo-tramo" hidden></div>
+          <label for="sel-th">TH</label>
+          <select id="sel-th" disabled><option value="">Escolha a zona primeiro</option></select>
+          <div id="campo-obr" hidden></div>
         </div>
         <button type="button" class="link" id="btn-manual" aria-expanded="false" aria-controls="manual">A obra não está na lista? Informe o local</button>
         <div id="manual" class="manual" hidden>
-          <p class="ajuda" id="manual-motivo">Use o km do PER vigente. Deixe o km final vazio para um ponto (obra pontual).</p>
+          <p class="ajuda" id="manual-motivo">Use o km SNV 202607A. Deixe o km final vazio para um ponto (obra pontual).</p>
           <div class="linha">
             <label>Rodovia<select id="m-rodovia"></select></label>
             <label>km inicial (PER)<input id="m-kmini" inputmode="decimal" placeholder="ex.: 288,350"></label>
@@ -72,9 +72,8 @@
           <label>Número do documento<input id="seq" inputmode="numeric" value="1" aria-describedby="seq-ajuda"></label>
           <label>Revisão<input id="rev" inputmode="numeric" value="0" aria-describedby="rev-ajuda"></label>
         </div>
-        <p class="ajuda" id="seq-ajuda">Sequência dentro da mesma disciplina e tipo de documento: 1, 2, 3... Modelo BIM por segmento usa o segmento (ex.: S02).</p>
+        <p class="ajuda" id="seq-ajuda">Sequência dentro da mesma disciplina e tipo de documento: 1, 2, 3... Modelo BIM usa H + número do TH (ex.: H20).</p>
         <p class="ajuda" id="rev-ajuda">Revisão 0 é a primeira emissão. A revisão só sobe quando o arquivo é emitido de novo.</p>
-        <button type="button" class="link" id="btn-seg" hidden>Usar o segmento da obra no número</button>
       </fieldset>
       <button type="reset" class="botao botao--contorno" id="btn-limpar">Recomeçar</button>
     </form>

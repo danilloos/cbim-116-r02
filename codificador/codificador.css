@@ -126,7 +126,7 @@ input:focus, select:focus { border-color: var(--via); outline: none; box-shadow:
   .resultado { position: static; }
 }
 
-/* cascata do passo 1: zona (escolha única) -> tramo -> obrigação */
+/* cascata do passo 1: zona (escolha única) -> TH -> obrigação */
 #cascata { display: grid; gap: .55rem; margin-bottom: .6rem; }
 #cascata[hidden] { display: none; }
 .rotulo-campo { margin: 0; font-weight: 600; font-size: .92rem; }
@@ -140,4 +140,4 @@ input:focus, select:focus { border-color: var(--via); outline: none; box-shadow:
 .zona:has(input:checked) { background: var(--profundo); border-color: var(--profundo); }
 .zona:has(input:checked) b, .zona:has(input:checked) small { color: var(--branco); }
 .zona:has(input:focus-visible) { outline: 3px solid var(--caraibeira); outline-offset: 2px; }
-#sel-tramo:disabled { opacity: .6; cursor: not-allowed; }
+#sel-th:disabled { opacity: .6; cursor: not-allowed; }
