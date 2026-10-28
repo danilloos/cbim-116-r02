@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual de Sinalização Provisória de Obras e Serviços · Concessionária 116 Sertões</title>
+<style>
+:root{--azul-profundo:#064b63;--azul-via:#087ca3;--azul-ararinha:#16a6dc;--azul-nevoa:#d5f4fc;--caraibeira:#f5ba00;
+--fundo:#f3f2ed;--texto:#2b4a56;--suave:#4b5b61;--filete:#c5cfcd;--branco:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Source Sans 3","Source Sans Pro",Calibri,"Segoe UI",Arial,sans-serif;color:var(--azul-profundo);background:var(--branco);line-height:1.55;font-size:17px}
+.pular{position:absolute;left:-999px;top:0;background:var(--caraibeira);color:var(--azul-profundo);padding:10px 16px;font-weight:700;z-index:10}
+.pular:focus{left:8px;top:8px}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--azul-via);outline-offset:2px}
+header.topo a:focus-visible,footer a:focus-visible{outline-color:var(--caraibeira)}
+header.topo{background:linear-gradient(90deg,var(--azul-profundo),var(--azul-via));color:#fff}
+header.topo .barra{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+header.topo img{height:44px;width:auto}
+header.topo nav{display:flex;gap:6px;flex-wrap:wrap}
+header.topo nav a{color:#fff;text-decoration:none;font-weight:600;padding:6px 12px;border-bottom:3px solid transparent}
+header.topo nav a:hover{border-bottom-color:var(--azul-nevoa)}
+header.topo nav a[aria-current=page]{border-bottom-color:var(--caraibeira)}
+header.topo .faixa{height:6px;background:var(--caraibeira)}
+.hero{background:var(--azul-profundo);color:#fff;padding:36px 20px}
+.hero .in{max-width:1180px;margin:0 auto}
+.hero h1{font-family:Manrope,"Segoe UI",Arial,sans-serif;font-weight:700;font-size:34px;margin:0 0 8px;line-height:1.2}
+.hero p{margin:0;font-size:18px;max-width:840px;color:#e6f6fb}
+.hero .meta{margin-top:14px;font-size:14px;color:var(--azul-nevoa)}
+main{max-width:1180px;margin:0 auto;padding:28px 20px}
+h2{font-family:Manrope,"Segoe UI",Arial,sans-serif;font-size:25px;margin:30px 0 10px;color:var(--azul-profundo);line-height:1.25;scroll-margin-top:12px}
+h3{font-size:19px;margin:22px 0 8px;scroll-margin-top:12px}
+h4{font-size:17px;margin:18px 0 6px;scroll-margin-top:12px}
+p,li{color:var(--texto)}
+a{color:#06688a}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:12px 0 8px}
+.card{border:1px solid var(--filete);border-top:4px solid var(--caraibeira);padding:16px 18px;background:#fff}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0 0 10px;font-size:15px}
+.card .links a{margin-right:14px;font-size:15px;font-weight:600}
+.botao{display:inline-block;background:var(--azul-profundo);color:#fff;padding:10px 18px;text-decoration:none;font-weight:600;margin:6px 10px 6px 0;border:2px solid var(--azul-profundo)}
+.botao:hover{background:#05384a}
+.botao.sec{background:#fff;color:var(--azul-profundo)}
+.botao.sec:hover{background:var(--azul-nevoa)}
+.tabela{overflow-x:auto;margin:10px 0 18px;border:1px solid var(--filete)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+.tabela table{margin:0}
+th,td{border:1px solid var(--filete);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--fundo);color:var(--azul-profundo)}
+.bloco{background:var(--fundo);padding:16px 18px;margin:16px 0}
+.quadro{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:10px 0}
+.quadro div{background:var(--azul-nevoa);padding:12px 14px;color:var(--azul-profundo)}
+.quadro strong{display:block;font-size:28px;font-family:Manrope,"Segoe UI",Arial,sans-serif}
+.nota{font-size:14px;color:var(--suave)}
+.manual{display:grid;grid-template-columns:300px minmax(0,1fr);gap:32px;align-items:start}
+.toc{position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto;background:var(--fundo);padding:12px 14px;font-size:15px}
+.toc summary{font-weight:700;cursor:pointer;color:var(--azul-profundo)}
+.toc ol{list-style:none;margin:8px 0 0;padding:0}
+.toc ol ol{margin:0 0 4px 14px}
+.toc a{display:block;text-decoration:none;color:var(--azul-profundo);padding:3px 0;line-height:1.3}
+.toc a:hover{text-decoration:underline}
+.toc li.n1>a{font-weight:600}
+.toc li.n2>a{font-size:14px;color:var(--texto)}
+.texto h2:first-child{margin-top:0}
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;background:var(--fundo);padding:16px 18px;margin:0 0 14px;align-items:end}
+.filtros label{display:block;font-weight:600;font-size:15px;margin-bottom:4px;color:var(--azul-profundo)}
+.filtros select,.filtros input{width:100%;font:inherit;font-size:16px;padding:8px 10px;border:1px solid #6b7c82;background:#fff;color:var(--azul-profundo);min-height:42px}
+.filtros button{font:inherit;font-weight:600;padding:9px 16px;min-height:42px;border:2px solid var(--azul-profundo);background:#fff;color:var(--azul-profundo);cursor:pointer}
+.filtros button:hover{background:var(--azul-nevoa)}
+.filtros .busca{grid-column:span 2}
+#contagem{font-weight:600;margin:6px 0 14px;color:var(--azul-profundo)}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;list-style:none;margin:0;padding:0}
+.croqui{border:1px solid var(--filete);border-top:4px solid var(--azul-via);background:#fff;display:flex;flex-direction:column}
+.croqui[hidden]{display:none}
+.croqui .mini{display:block;background:#fff;border-bottom:1px solid var(--filete)}
+.croqui .mini img{display:block;width:100%;height:auto}
+.croqui .corpo{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.croqui h3{margin:0;font-size:16px;line-height:1.3}
+.croqui h3 span{display:inline-block;background:var(--azul-profundo);color:#fff;font-size:13px;padding:1px 7px;margin-right:6px}
+.croqui p{margin:0;font-size:14.5px}
+.croqui .tags{display:flex;gap:6px;flex-wrap:wrap}
+.croqui .tags span{font-size:12.5px;background:var(--azul-nevoa);color:var(--azul-profundo);padding:1px 8px}
+.croqui .tags span.noturno{background:var(--azul-profundo);color:#fff}
+.croqui details{font-size:14px}
+.croqui details summary{cursor:pointer;color:#06688a;font-weight:600}
+.croqui details ul{margin:6px 0 0;padding-left:18px}
+.croqui .links{margin-top:auto;padding-top:6px;font-size:15px;font-weight:600}
+.croqui .links a{margin-right:12px}
+.vazio{padding:24px;background:var(--fundo);text-align:center}
+.vazio[hidden]{display:none}
+footer{background:var(--azul-profundo);color:#e0eef3;padding:22px 20px;margin-top:40px;font-size:14px}
+footer .in{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer img{height:36px;width:auto}
+@media (max-width:900px){.manual{grid-template-columns:1fr}.toc{position:static;max-height:none}.filtros .busca{grid-column:auto}}
+@media (max-width:700px){.hero h1{font-size:26px}.galeria{grid-template-columns:1fr}}
+@media print{header.topo nav,.filtros,.toc,.pular{display:none}}
+</style></head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<header class="topo"><div class="barra"><a href="index.html"><img src="assets/logo_horizontal_negativa.png" alt="Concessionária 116 Sertões, página inicial"></a><nav aria-label="Principal"><a href="index.html" aria-current="page">Início</a><a href="manual.html">Manual</a><a href="croquis.html">Croquis</a><a href="index.html#revisoes">Revisões</a></nav></div><div class="faixa"></div></header>
+<section class="hero"><div class="in"><h1>Sinalização provisória de obras e serviços</h1><p>Manual e croquis que padronizam a sinalização de obras, serviços e emergências no sistema rodoviário da Concessão Rota dos Sertões.</p><div class="meta">Código MAN-SIN-116 · Revisão R00 · 28/10/2026 · Status PR · Documento público</div></div></section>
+<main id="conteudo">
+<p><a class="botao" href="manual.html">Ler o manual</a> <a class="botao sec" href="croquis.html">Ver os croquis</a> <a class="botao sec" href="arquivos/MAN-SIN-116_Manual_Sinalizacao_Obras_116Sertoes_R00.pdf">Manual em PDF (35 páginas)</a> <a class="botao sec" href="arquivos/IT-SIN-116_Croquis_Sinalizacao_116Sertoes_R00.pdf">Croquis em PDF (132 páginas)</a></p>
+<h2>O que o manual fixa</h2>
+<p>Critérios de planejamento, implantação, manutenção, inspeção e retirada da sinalização provisória de obras, serviços e emergências no sistema rodoviário concedido. Os documentos citam o CTB, as resoluções do CONTRAN (Manual Brasileiro de Sinalização de Trânsito, Volume VII), o DNIT (IPR 738), as NR-18 e NR-01 e o PER. Os dois documentos são complementares: o manual define as regras e a instrução reúne os croquis por situação.</p>
+<div class="quadro">
+<div><strong>51</strong>croquis por situação-tipo (35 diurnos e 16 variantes noturnas)</div>
+<div><strong>7 famílias</strong>serviços móveis, curta e longa duração, pista simples e dupla, urbano, OAE e emergências</div>
+<div><strong>40 a 110 km/h</strong>faixa de velocidade coberta, com distâncias calculadas por velocidade e tipo de via</div>
+<div><strong>3 tipos de via</strong>pista simples, pista dupla e via urbana, em BR-116/BA, BR-116/PE e BR-324/BA</div>
+</div>
+<h2>Famílias de croquis</h2>
+<div class="cards"><div class="card"><h3>Família A Serviços móveis</h3><p>Serviço que avança com a frente: varrição, roçada, pintura de faixa, inspeção, serviço contínuo no acostamento.</p><p class="nota">7 croquis (7 situações)</p><div class="links"><a href="croquis.html?familia=A">Ver os croquis da família A</a></div></div><div class="card"><h3>Família B Curta duração fixa</h3><p>Serviço fixo de poucas horas no acostamento ou numa faixa, com pare e siga quando a pista simples exige.</p><p class="nota">5 croquis (5 situações)</p><div class="links"><a href="croquis.html?familia=B">Ver os croquis da família B</a></div></div><div class="card"><h3>Família C Pista simples, ocupação de faixa</h3><p>Pista simples com meia pista ocupada, semáforo temporário, interdição total, desvio e rota alternativa.</p><p class="nota">8 croquis (5 situações)</p><div class="links"><a href="croquis.html?familia=C">Ver os croquis da família C</a></div></div><div class="card"><h3>Família D Pista dupla, longa duração</h3><p>Pista dupla com interdição de faixa por dias ou semanas, contrafluxo, estreitamento, etapas e interseções.</p><p class="nota">10 croquis (5 situações)</p><div class="links"><a href="croquis.html?familia=D">Ver os croquis da família D</a></div></div><div class="card"><h3>Família E Trecho urbano</h3><p>Obra em travessia urbana, com passagem segura de pedestres e ciclistas e tapume.</p><p class="nota">2 croquis (1 situações)</p><div class="links"><a href="croquis.html?familia=E">Ver os croquis da família E</a></div></div><div class="card"><h3>Família F OAE e passarelas</h3><p>Pontes, viadutos e passarelas: meia pista, serviço sob o tabuleiro, interdição total e içamento de vigas.</p><p class="nota">13 croquis (7 situações)</p><div class="links"><a href="croquis.html?familia=F">Ver os croquis da família F</a></div></div><div class="card"><h3>Família G Emergências</h3><p>Primeira resposta e montagem padrão em acidente, interdição emergencial, erosão, alagamento e queda de carga.</p><p class="nota">6 croquis (5 situações)</p><div class="links"><a href="croquis.html?familia=G">Ver os croquis da família G</a></div></div></div>
+<h2>Como usar</h2>
+<ol>
+<li>Classifique o serviço (móvel, curta duração, longa duração ou emergência) pelo item 5 do manual.</li>
+<li>Escolha o croqui da família que atende a situação e confira a velocidade e o tipo de via na tabela do item 6.7.</li>
+<li>Adapte as distâncias ao local no plano de sinalização da obra (modelo no Anexo 1 do manual) e submeta à aprovação.</li>
+<li>Em obra de longa duração, use também a variante noturna do croqui.</li>
+</ol>
+<div class="bloco"><strong>Documento público.</strong> Manual e croquis podem ser lidos e baixados por qualquer pessoa, inclusive contratadas e projetistas que citam esses documentos nos planos de sinalização.</div>
+<h2 id="aprovacao">Elaboração e aprovação</h2>
+<div class="tabela" role="region" aria-label="Elaboração e aprovação" tabindex="0"><table><thead><tr><th scope="col">Etapa</th><th scope="col">Nome</th><th scope="col">Função</th></tr></thead><tbody><tr><td>Elaboração</td><td>Danillo Oliveira</td><td>Engenharia</td></tr><tr><td>Aprovação</td><td>Leonardo Brangioni</td><td>Gerente de Operações</td></tr><tr><td>Aprovação</td><td>Viviane</td><td>Gerente de QSSMA</td></tr></tbody></table></div>
+<p class="nota">Enquanto o status for PR, a revisão está em análise para aprovação. Com a assinatura dos dois aprovadores, o status passa a AP.</p>
+<h2 id="revisoes">Quadro de revisões</h2>
+<div class="tabela" role="region" aria-label="Quadro de revisões" tabindex="0"><table><thead><tr><th scope="col">Documento</th><th scope="col">Rev.</th><th scope="col">Data</th><th scope="col">Status</th><th scope="col">Descrição</th></tr></thead><tbody><tr><td>MAN-SIN-116</td><td>R00</td><td>28/10/2026</td><td>PR</td><td>R00 (28/10/2026): emissão inicial, para aprovação.</td></tr><tr><td>IT-SIN-116</td><td>R00</td><td>28/10/2026</td><td>PR</td><td></td></tr></tbody></table></div>
+<p class="nota">Status PR = em revisão para aprovação; AP = aprovado. Cada nova revisão substitui a anterior e é anunciada neste quadro.</p>
+</main>
+<footer><div class="in"><div>Concessionária 116 Sertões S.A. · CNPJ 68.576.407/0001-03 · Concessão Rota dos Sertões · BR-116/PE/BA e BR-324/BA<br>Alameda Salvador, 1057 · Torre América, sala 1115 · Salvador/BA · Engenharia</div><img src="assets/logo_horizontal_negativa.png" alt=""></div></footer>
+
+</body></html>
