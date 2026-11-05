@@ -1,7 +1,7 @@
 /* Interface do Codificador de Projetos 116 Sertões. Regras em codificador.core.js; dados em dados.js (gerar_codificador.py). */
 (function () {
   'use strict';
-  const D = window.CCS_DADOS;
+  const D = window.SRT_DADOS;
   const C = window.CCSCore;
   const $ = id => document.getElementById(id);
   const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
@@ -229,14 +229,14 @@
     if (!estado.disc.libs.includes(loc.lib)) avisos.push(`A disciplina ${estado.disc.cod} não tem pasta modelo em ${C.BIBLIOTECAS[loc.lib]}. Confirme com a Gestão da Informação onde salvar.`);
     const cam = C.caminho({ site: zonaPorId[loc.zona].site, lib: loc.lib, pasta: loc.pasta, obrigacao: loc.obrigacao, fase: estado.fase.proj, ddd: estado.disc.cod, ttt: estado.cat.cod });
 
-    $('out-ccs').textContent = r.ccs || 'Corrija o número ou a revisão (passo 5).';
-    $('out-ccs').classList.toggle('pendente', !r.ccs);
+    $('out-srt').textContent = r.srt || 'Corrija o número ou a revisão (passo 5).';
+    $('out-srt').classList.toggle('pendente', !r.srt);
     $('out-antt').textContent = r.antt || 'Sem nome de protocolo para esta combinação (veja os avisos).';
     $('out-antt').classList.toggle('pendente', !r.antt);
     $('btn-antt').disabled = !r.antt;
-    $('btn-ccs').disabled = !r.ccs;
+    $('btn-srt').disabled = !r.srt;
     $('out-ident').textContent = r.ident;
-    $('status').textContent = r.ccs ? `Código pronto: ${r.ccs}` : 'Código incompleto: confira o número e a revisão.';
+    $('status').textContent = r.srt ? `Código pronto: ${r.srt}` : 'Código incompleto: confira o número e a revisão.';
     $('avisos').replaceChildren(...[...r.avisos, ...avisos].map(a => el('li', null, a)));
 
     $('out-trilha').replaceChildren(...cam.niveis.map((n, i) => el('li', i < cam.existe ? null : 'criar', n)));
@@ -272,8 +272,8 @@
       ['Ano de projeto', t?.anoProjeto || 'não informado'],
       ['Tipo de obra', `${obra} ${obraNome[obra] || ''}`],
       ['Tipo de projeto', `${estado.fase.proj} ${estado.fase.nome}`],
-      ['Categoria CCS', `${estado.cat.cod} ${estado.cat.nome}`],
-      ['Disciplina CCS', `${estado.disc.cod} ${estado.disc.nome}`],
+      ['Categoria SRT', `${estado.cat.cod} ${estado.cat.nome}`],
+      ['Disciplina SRT', `${estado.disc.cod} ${estado.disc.nome}`],
       ['Classe ANTT', cat || 'sem classe ANTT'],
       ['Disciplina ANTT', disc || 'sem disciplina ANTT'],
       ['Código ANTT', r.ident],

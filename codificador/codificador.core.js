@@ -4,7 +4,7 @@
 (function (raiz) {
   'use strict';
 
-  const CONCESSIONARIA = 'CCS';
+  const CONCESSIONARIA = 'SRT';
   const ORIGEM = 'https://novainfrainvest.sharepoint.com';
   const BIBLIOTECAS = { CDEINFR: '02 CDE-INFR', CDEEDIF: '03 CDE-EDIF' };
   const FASES_COM_PASTA = new Set(['ANT', 'EXO']);           // criadas em cada obrigação (gerar_config_zonas.py)
@@ -64,16 +64,16 @@
     const r = normRev(rev);
     if (!s) avisos.push('Sequencial inválido: use um número de 1 a 999 (ou H + número do TH, como H20, para modelo BIM).');
     if (!r) avisos.push('Revisão inválida: use um número de 0 a 99 (R00 é a primeira emissão).');
-    if (!s || !r) return { ident, ccs: null, antt: null, avisos };
+    if (!s || !r) return { ident, srt: null, antt: null, avisos };
     if (s.startsWith('H') && cat.cod !== 'MOD') avisos.push('Sequencial H + TH (H20) é só para modelo BIM; nos demais documentos use número.');
-    const ccs = [ident, cat.cod, disc.cod, s, r].join('-');
+    const srt = [ident, cat.cod, disc.cod, s, r].join('-');
     const c = siglaAntt(cat.antt, 'categoria');
     const d = siglaAntt(disc.antt, 'disciplina');
     let antt = null;
     if (c.sigla && d.sigla && !s.startsWith('H')) antt = [ident, c.sigla, d.sigla, s, r].join('-');
     for (const x of [c, d]) if (x.aviso) avisos.push(x.aviso);
     if (c.sigla && d.sigla && s.startsWith('H')) avisos.push('No nome ANTT o sequencial é numérico: informe o número do modelo para gerar o nome de protocolo.');
-    return { ident, ccs, antt, avisos };
+    return { ident, srt, antt, avisos };
   }
 
   /** Caminho no SharePoint da zona. Devolve níveis, quantos já existem, o link da pasta existente mais funda
@@ -151,7 +151,7 @@
     return [...porPasta.values()].sort((a, b) => (a.pasta === 'EDIF') - (b.pasta === 'EDIF') || (km[a.th] ?? 0) - (km[b.th] ?? 0));
   }
 
-  /** Lê dados.js (window.CCS_DADOS = {...};) fora do navegador. */
+  /** Lê dados.js (window.SRT_DADOS = {...};) fora do navegador. */
   function lerDadosArquivo(arquivo) {
     const txt = require('fs').readFileSync(arquivo, 'utf8');
     return JSON.parse(txt.slice(txt.indexOf('=') + 1).trim().replace(/;\s*$/, ''));
