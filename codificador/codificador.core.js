@@ -76,6 +76,23 @@
     return { ident, srt, antt, avisos };
   }
 
+  /** Anatomia do nome SRT: um item por bloco, na ordem do código, com o que o bloco significa.
+      Mesma montagem de montar(); seq e rev já normalizados (normSeq/normRev). */
+  function blocos({ rod, rodNome, local, obra, obraNome, proj, projNome, cat, disc, seq, rev }) {
+    const pontual = local.includes('+');
+    return [
+      { k: 'conc', v: CONCESSIONARIA, nome: 'Concessionária', ajuda: 'Sigla da 116 Sertões na ANTT. É igual em todo arquivo.' },
+      { k: 'rod', v: rod, nome: 'Rodovia e UF', ajuda: rodNome ? `${rodNome}.` : 'Rodovia federal e estado.' },
+      { k: 'local', v: local, nome: 'Localização', ajuda: pontual ? 'Obra pontual: km+metros do SNV 202607A.' : 'Trecho: km inicial e final do SNV 202607A, sem casas decimais.' },
+      { k: 'obra', v: obra, nome: 'Tipo de obra', ajuda: obraNome || 'Tabela 1.1.3 da Portaria SUROD 12/2025.' },
+      { k: 'proj', v: proj, nome: 'Fase', ajuda: projNome || 'Tipo de projeto ou serviço.' },
+      { k: 'cat', v: cat.cod, nome: 'Tipo de documento', ajuda: cat.nome || '' },
+      { k: 'disc', v: disc.cod, nome: 'Disciplina', ajuda: disc.nome || '' },
+      { k: 'seq', v: seq, nome: 'Número', ajuda: String(seq).startsWith('H') ? 'Modelo BIM: H + número do TH.' : 'Sequência dentro da mesma disciplina e tipo de documento.' },
+      { k: 'rev', v: rev, nome: 'Revisão', ajuda: rev === 'R00' ? 'Primeira emissão.' : 'Sobe a cada nova emissão.' },
+    ];
+  }
+
   /** Caminho no SharePoint da zona. Devolve níveis, quantos já existem, o link da pasta existente mais funda
       e o caminho em texto (nomes exibidos, para o projetista conferir; não é URL). */
   function caminho({ site, lib, pasta, obrigacao, fase, ddd, ttt }) {
@@ -151,14 +168,26 @@
     return [...porPasta.values()].sort((a, b) => (a.pasta === 'EDIF') - (b.pasta === 'EDIF') || (km[a.th] ?? 0) - (km[b.th] ?? 0));
   }
 
+  /** Famílias de obrigação para os filtros do mapa (tipos de obra da tabela 1.1.3 agrupados para quem não conhece o PER). */
+  const FAMILIAS = [
+    { k: 'dpl', nome: 'Duplicação, faixas e marginais', obras: ['DPL', 'FAD', 'MAN', 'MAS', 'CTR', 'CTO', 'ACA'] },
+    { k: 'dis', nome: 'Dispositivos e retornos', obras: ['DNI', 'DDE', 'RET', 'PIN', 'ALG'] },
+    { k: 'ace', nome: 'Acessos', obras: ['ACE'] },
+    { k: 'oae', nome: 'Pontes, viadutos e passarelas', obras: ['OAE', 'PAS'] },
+    { k: 'edi', nome: 'Bases, edificações e pórticos', obras: ['BSO', 'POR', 'PRF', 'CCO', 'EDI', 'SAU', 'PPV', 'BAL'] },
+    { k: 'mop', nome: 'Melhorias e pontos de ônibus', obras: ['MOP', 'PON'] },
+  ];
+  /** Família do tipo de obra; 'out' quando o tipo não está em nenhuma (aparece em "Outras"). */
+  const familia = obra => (FAMILIAS.find(f => f.obras.includes(obra)) || { k: 'out' }).k;
+
   /** Lê dados.js (window.SRT_DADOS = {...};) fora do navegador. */
   function lerDadosArquivo(arquivo) {
     const txt = require('fs').readFileSync(arquivo, 'utf8');
     return JSON.parse(txt.slice(txt.indexOf('=') + 1).trim().replace(/;\s*$/, ''));
   }
 
-  const api = { CONCESSIONARIA, BIBLIOTECAS, blocoLocal, identificador, normSeq, normRev, montar, caminho,
-                normalizar, filtrar, localizarTH, lerKm, fmtKm, faixaSnv, thsDaZona, semTraco, lerDadosArquivo, SEM_TH };
+  const api = { CONCESSIONARIA, BIBLIOTECAS, blocoLocal, identificador, normSeq, normRev, montar, blocos, caminho,
+                normalizar, filtrar, localizarTH, FAMILIAS, familia, lerKm, fmtKm, faixaSnv, thsDaZona, semTraco, lerDadosArquivo, SEM_TH };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else raiz.CCSCore = api;
 })(this);

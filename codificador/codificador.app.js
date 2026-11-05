@@ -211,6 +211,7 @@
   function atualizar() {
     const faltam = [], avisos = [];
     const loc = localizacao(faltam, avisos);
+    avisarSelecao();
     if (!estado.fase) faltam.push('Escolha a fase (passo 2).');
     if (!estado.disc) faltam.push('Escolha a disciplina (passo 3).');
     if (!estado.cat) faltam.push('Escolha o tipo de documento (passo 4).');
@@ -236,6 +237,8 @@
     $('btn-antt').disabled = !r.antt;
     $('btn-srt').disabled = !r.srt;
     $('out-ident').textContent = r.ident;
+    desenharAnatomia(r.srt ? C.blocos({ rod: loc.rod, rodNome: loc.rodNome, local: C.blocoLocal(loc.kmIni, loc.kmFim), obra, obraNome: obraNome[obra],
+      proj: estado.fase.proj, projNome: estado.fase.nome, cat: estado.cat, disc: estado.disc, seq: C.normSeq($('seq').value), rev: C.normRev($('rev').value) }) : []);
     $('status').textContent = r.srt ? `Código pronto: ${r.srt}` : 'Código incompleto: confira o número e a revisão.';
     $('avisos').replaceChildren(...[...r.avisos, ...avisos].map(a => el('li', null, a)));
 
@@ -253,6 +256,22 @@
     const local = `${loc.rodNome} km ${C.fmtKm(loc.kmIni)}${loc.kmFim != null ? ` a ${C.fmtKm(loc.kmFim)}` : ''} SNV (DNIT 202607A)`;
     $('out-local').textContent = loc.per ? `${local} / km PER ${C.fmtKm(loc.per[0])}${loc.per[1] != null ? ` a ${C.fmtKm(loc.per[1])}` : ''} (provisório)` : `${local} / km PER: correlação provisória, consulte a lista mestre.`;
     preencherMeta(loc, obra, r);
+  }
+
+  /** Código em blocos: cada bloco com o que significa (o projetista novo entende o nome sem abrir o Caderno). */
+  let anatomiaAnterior = '';
+  function desenharAnatomia(bs) {
+    const lista = $('out-anatomia');
+    const chave = bs.map(b => b.v).join('-');
+    lista.hidden = !bs.length;
+    if (chave === anatomiaAnterior) return;  // só anima quando o código muda
+    anatomiaAnterior = chave;
+    lista.replaceChildren(...bs.map((b, i) => {
+      const li = el('li', `bloco bloco--${b.k}`);
+      li.style.setProperty('--i', i);
+      li.append(el('code', null, b.v), el('b', null, b.nome), el('span', null, b.ajuda));
+      return li;
+    }));
   }
 
   function preencherMeta(loc, obra, r) {
@@ -311,6 +330,46 @@
     setTimeout(() => { escolherZona(null); ajustarManual(); }, 0);
   });
 
+  /* ---------- ponte com o mapa (codificador.mapa.js) ---------- */
+  let ultimaSelecao = '';
+  function avisarSelecao() {
+    const det = { zona: estado.zona, thPasta: estado.thPasta, obr: estado.obr ? estado.obr.id : null };
+    const chave = JSON.stringify(det);
+    if (chave === ultimaSelecao) return;
+    ultimaSelecao = chave;
+    const url = new URL(location.href);
+    if (det.obr) url.searchParams.set('obr', det.obr); else url.searchParams.delete('obr');
+    history.replaceState(null, '', url);
+    document.dispatchEvent(new CustomEvent('srt:selecao', { detail: det }));
+  }
+  /** Escolhe zona, TH e obrigação a partir do ID da lista mestre (clique no mapa ou link ?obr=). Devolve false se o ID não existe. */
+  function selecionarObrigacao(id) {
+    const t = D.obrigacoes.find(o => o.id === id) || D.obrigacoes.find(o => o.base === id);  // ID base (Z05-DPL01) cai na 1ª parte
+    if (!t || !t.pasta) return false;
+    if (estado.manual) { estado.manual = false; ajustarManual(); }
+    const radio = document.querySelector(`input[name=zona][value="${t.zona}"]`);
+    if (radio) radio.checked = true;
+    escolherZona(t.zona);
+    $('sel-th').value = t.pasta;
+    escolherTH(t.pasta);
+    if (estado.obr !== t) campos.obr.definir(t);
+    return true;
+  }
+  function selecionarZona(id) {
+    const radio = document.querySelector(`input[name=zona][value="${id}"]`);
+    if (!radio || (estado.zona === id && !estado.obr)) return;  // mesma zona com obrigação escolhida: volta para a zona inteira
+    if (estado.manual) { estado.manual = false; ajustarManual(); }
+    radio.checked = true;
+    escolherZona(id);
+  }
+  window.CodificadorApp = { selecionarObrigacao, selecionarZona, estado: () => ({ ...estado }) };
+
+  const inicial = new URLSearchParams(location.search).get('obr');  // lido antes do primeiro atualizar(), que reescreve a URL
   ajustarManual();
   atualizar();
+  if (inicial && !selecionarObrigacao(inicial)) {
+    const existe = D.obrigacoes.some(o => o.id === inicial || o.base === inicial);
+    $('status').textContent = existe ? `A obrigação ${inicial} do link ainda não tem pasta de projeto: escolha a zona à mão.`
+      : `A obrigação ${inicial} do link não está na lista mestre publicada.`;
+  }
 })();

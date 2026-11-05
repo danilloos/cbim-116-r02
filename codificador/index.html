@@ -5,33 +5,118 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#064B63">
-<meta name="description" content="Codificador de Projetos da Concessionária 116 Sertões: monta o código de arquivo SRT e indica a pasta do SharePoint.">
+<meta name="description" content="Codificador de Projetos da Concessionária 116 Sertões: mapa da concessão, guia da taxonomia de documentos, código de arquivo SRT e pasta do SharePoint.">
 <title>Codificador de Projetos · 116 Sertões</title>
 <link rel="icon" href="simbolo-116.svg">
-<link rel="stylesheet" href="codificador.css">
+<link rel="preload" href="paisagem-estrada-aerea.jpg" as="image">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="codificador.css?v=202611050928">
 </head>
 <body>
 <a class="pular" href="#form">Pular para o formulário</a>
 <header class="topo">
   <img src="logo-116.svg" alt="116 Sertões" width="132" height="45">
   <div class="topo__titulo"><span class="eyebrow">Central BIM</span><strong>Codificador de Projetos</strong></div>
-  <nav class="topo__links" aria-label="Links">
-    <a id="lnk-central" href="#" target="_blank" rel="noopener">Central BIM 116 Sertões</a>
-    <a id="lnk-codigos" href="#" target="_blank" rel="noopener">Tabela de códigos</a>
-    <a href="https://gen116sertoes.github.io/cbim-116-r02/" target="_blank" rel="noopener">Caderno BIM em tela</a>
+  <nav class="topo__links" aria-label="Seções e links">
+    <a href="#guia">Como funciona</a>
+    <a href="#sec-mapa">Mapa</a>
+    <a href="#codificar">Codificar</a>
+    <a id="lnk-central" href="#" target="_blank" rel="noopener">Central BIM</a>
+    <a href="https://gen116sertoes.github.io/cbim-116-r02/" target="_blank" rel="noopener">Caderno BIM</a>
   </nav>
 </header>
 
 <main>
-  <section class="abertura">
-    <h1>O nome certo e a pasta certa, <span class="destaque">sem decorar código.</span></h1>
-    <p>Comece pela zona e pelo TH, depois diga o que o arquivo é. O codificador monta o código da Portaria SUROD 12/2025 com as tabelas da 116 Sertões e diz em que pasta do SharePoint ele fica.</p>
+  <section class="abertura" aria-labelledby="titulo">
+    <div class="abertura__texto">
+      <h1 id="titulo">Nome certo e pasta certa, <span class="destaque">mesmo sem conhecer a concessão.</span></h1>
+      <p>Ache a obra no mapa, entenda como a 116 Sertões organiza o acervo e saia com o código do arquivo pronto.</p>
+      <div class="acoes acoes--abertura">
+        <a class="botao" href="#sec-mapa">Achar a obra no mapa</a>
+        <a class="botao botao--contorno" href="#guia">Como funciona</a>
+      </div>
+    </div>
+    <figure class="abertura__foto">
+      <img src="paisagem-estrada-aerea.jpg" alt="Vista aérea da BR-116 cortando a caatinga no sertão" width="1400" height="781" fetchpriority="high">
+    </figure>
   </section>
 
+  <section class="numeros-sec revela" aria-label="A concessão em números">
+    <ul class="numeros" id="numeros"></ul>
+  </section>
+
+  <section id="guia" class="guia" aria-labelledby="guia-titulo">
+    <div class="guia__rota revela">
+      <h2 id="guia-titulo">Do território ao documento, em seis níveis</h2>
+      <p class="guia__lead">Todo arquivo de projeto nasce de uma obra do contrato num ponto da rodovia. O exemplo abaixo é uma obra real da lista mestre.</p>
+      <ol class="rota" id="rota"></ol>
+    </div>
+
+    <div class="anatomia revela" aria-labelledby="anat-titulo">
+      <h2 id="anat-titulo">Como ler um código</h2>
+      <p class="guia__lead">Passe o mouse ou toque em cada bloco.</p>
+      <p class="anatomia__codigo" id="anatomia-codigo"></p>
+      <p class="anatomia__explica" id="anatomia-explica"></p>
+      <button type="button" class="link" id="anatomia-usar">Abrir esta obra no mapa e no codificador</button>
+    </div>
+
+    <details class="glossario revela">
+      <summary>Glossário da concessão <small>12 termos que aparecem no codificador</small></summary>
+      <dl>
+        <div><dt>PER</dt><dd>Programa de Exploração da Rodovia. Anexo do Contrato ANTT nº 1/2026 que lista as obras, os prazos e os parâmetros da concessão Rota dos Sertões.</dd></div>
+        <div><dt>Obrigação</dt><dd>Obra ou serviço exigido pelo PER (duplicação, retorno, passarela, base operacional). Cada uma tem um ID na lista mestre, como Z05-DPL01.</dd></div>
+        <div><dt>Lista mestre</dt><dd>Planilha oficial que liga cada obrigação à zona, ao TH, ao km e à pasta do SharePoint. O codificador usa a versão publicada na Central BIM.</dd></div>
+        <div><dt>Zona</dt><dd>Recorte geográfico do acervo de projetos. Z01 a Z09 seguem a rodovia; Z00 reúne projetos de toda a extensão e da sede.</dd></div>
+        <div><dt>TH</dt><dd>Trecho homogêneo da Tabela 43 do PER. A pasta Ano-TH (ex.: A03-TH01) junta o ano-âncora e o número do TH.</dd></div>
+        <div><dt>km SNV 202607A</dt><dd>Quilometragem do Sistema Nacional de Viação do DNIT, versão de julho de 2026. É o km que entra no código (bloco de localização).</dd></div>
+        <div><dt>km PER</dt><dd>Quilometragem usada no texto do PER. Aqui aparece só como correlação provisória.</dd></div>
+        <div><dt>Travessia urbana</dt><dd>Trecho em que a rodovia atravessa área urbana. No mapa, a faixa azul larga.</dd></div>
+        <div><dt>SRT</dt><dd>Sigla da concessionária nos códigos de arquivo, definida pela ANTT.</dd></div>
+        <div><dt>CDE</dt><dd>Ambiente comum de dados: bibliotecas 02 CDE-INFR (infraestrutura) e 03 CDE-EDIF (edificações) nos sites de zona.</dd></div>
+        <div><dt>Fase</dt><dd>Etapa do projeto: EVT (viabilidade), FUN (funcional), ANT (anteprojeto), EXO (executivo com orçamento), ASB (as built), entre outras.</dd></div>
+        <div><dt>Portaria SUROD 12/2025</dt><dd>Regra da ANTT para nomear e apresentar projetos. O codificador aplica o Anexo 1.1 com as tabelas da 116 Sertões.</dd></div>
+      </dl>
+    </details>
+  </section>
+
+  <section id="sec-mapa" class="mapa-sec" aria-labelledby="mapa-titulo">
+    <div class="mapa-sec__cab revela">
+      <h2 id="mapa-titulo">Mapa da concessão</h2>
+      <p class="guia__lead">Clique numa obra para levá-la ao codificador. O que você escolher no formulário aparece aqui.</p>
+    </div>
+    <div class="mapa-wrap">
+      <aside class="mapa-painel" aria-label="Filtros do mapa">
+        <div class="painel-bloco">
+          <div class="painel-cab"><h3>Obrigações do PER</h3><button type="button" class="link link--peq" id="mapa-todos">Ocultar todas</button></div>
+          <div class="filtros" id="mapa-filtros"></div>
+        </div>
+        <div class="painel-bloco">
+          <h3>Referências</h3>
+          <label class="chave"><input type="checkbox" id="cam-municipios" checked> Municípios e divisas</label>
+          <label class="chave"><input type="checkbox" id="cam-tus" checked> Travessias urbanas</label>
+          <label class="chave"><input type="checkbox" id="cam-ths" checked> Limites dos trechos homogêneos</label>
+        </div>
+        <div class="painel-bloco">
+          <div class="painel-cab"><h3>Zonas</h3><button type="button" class="link link--peq" id="mapa-geral">Ver tudo</button></div>
+          <div class="zonas-leg" id="mapa-zonas"></div>
+        </div>
+      </aside>
+      <div class="mapa-area">
+        <div id="mapa" class="mapa" role="region" aria-label="Mapa da rodovia com zonas, municípios e obrigações"></div>
+        <article class="ficha" id="mapa-ficha" aria-label="Detalhes do item selecionado no mapa" hidden></article>
+        <p class="toast" id="mapa-toast" role="status"></p>
+      </div>
+    </div>
+    <p class="ajuda" id="mapa-fonte"></p>
+  </section>
+
+  <section id="codificar" class="codificar" aria-labelledby="cod-titulo">
+    <h2 id="cod-titulo" class="revela">Monte o código</h2>
   <div class="grade">
     <form id="form" class="form" autocomplete="off" novalidate>
       <fieldset class="passo">
         <legend><span class="num">1</span> Onde fica a obra?</legend>
+        <p class="ajuda ajuda--topo">Escolha no mapa acima ou pela zona, TH e obrigação.</p>
         <div id="cascata">
           <p class="rotulo-campo" id="rot-zona">Zona</p>
           <div class="zonas" id="zonas" role="radiogroup" aria-labelledby="rot-zona"></div>
@@ -44,8 +129,8 @@
           <p class="ajuda" id="manual-motivo">Use o km SNV 202607A. Deixe o km final vazio para um ponto (obra pontual).</p>
           <div class="linha">
             <label>Rodovia<select id="m-rodovia"></select></label>
-            <label>km inicial (PER)<input id="m-kmini" inputmode="decimal" placeholder="ex.: 288,350"></label>
-            <label>km final (PER)<input id="m-kmfim" inputmode="decimal" placeholder="vazio = ponto"></label>
+            <label>km inicial (SNV)<input id="m-kmini" inputmode="decimal" placeholder="ex.: 288,350"></label>
+            <label>km final (SNV)<input id="m-kmfim" inputmode="decimal" placeholder="vazio = ponto"></label>
           </div>
           <div id="campo-obra"></div>
         </div>
@@ -91,6 +176,7 @@
           <p class="valor" id="out-srt"></p>
           <button type="button" class="botao" data-copiar="out-srt" id="btn-srt">Copiar nome</button>
           <p class="ajuda">Acrescente só a extensão (.pdf, .dwg, .ifc...). Sem espaços nem acentos.</p>
+          <ol class="anatomia-res" id="out-anatomia" aria-label="O que cada bloco do nome significa" hidden></ol>
         </div>
         <div class="codigo codigo--sec">
           <p class="rotulo">Nome para protocolo na ANTT (SEI)</p>
@@ -114,20 +200,26 @@
 
         <h3>Localização</h3>
         <p id="out-local"></p>
+        <a class="link link--claro" href="#sec-mapa">Ver no mapa</a>
 
         <h3>Metadados do arquivo no CDE</h3>
         <table class="meta"><tbody id="out-meta"></tbody></table>
       </div>
     </aside>
   </div>
+  </section>
 </main>
 
 <footer class="rodape">
-  <p>Regras: Caderno BIM 116 Sertões, Volume II, Seções 6.4 e 6.7, e Anexo A.3. Em divergência, valem o Caderno e o gerador do Anexo A.3.</p>
+  <p>Regras: Caderno BIM 116 Sertões, Volume II, Seções 6.4 e 6.7, e Anexo A.3. Em divergência, valem o Caderno e o gerador do Anexo A.3. Códigos completos na <a id="lnk-codigos" href="#" target="_blank" rel="noopener">tabela de códigos da Central BIM</a>.</p>
   <p id="rodape-fontes"></p>
 </footer>
-<script src="dados.js"></script>
-<script src="codificador.core.js"></script>
-<script src="codificador.app.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="dados.js?v=202611050928"></script>
+<script src="geo.js?v=202611050928"></script>
+<script src="codificador.core.js?v=202611050928"></script>
+<script src="codificador.app.js?v=202611050928"></script>
+<script src="codificador.mapa.js?v=202611050928"></script>
+<script src="codificador.guia.js?v=202611050928"></script>
 </body>
 </html>
