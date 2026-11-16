@@ -29,7 +29,8 @@
   "ambos_sentidos": false,
   "rotulo_tipo": null,
   "pmv": false,
-  "trabalho_noturno": false,
+  "trabalho_noturno": true,
+  "frente_sob_tabuleiro": true,
   "duracao_dias": null,
   "v_obra_kmh": null,
   "curva": null,
@@ -363,7 +364,8 @@
  ],
  "exige_radio": false,
  "notas": [
-  "Sem ocupação da pista: proteção contra queda de material (tela ou bandeja na plataforma) e isolamento da área sob a OAE; placas de advertência e redução de velocidade no tabuleiro."
+  "Sem ocupação da pista: proteção contra queda de material (tela ou bandeja na plataforma) e isolamento da área sob a OAE; placas de advertência e redução de velocidade no tabuleiro.",
+  "Noite: iluminação da frente de trabalho na plataforma, sob o tabuleiro (manual, item 7.4)."
  ],
  "geom": {
   "c": 0.0,

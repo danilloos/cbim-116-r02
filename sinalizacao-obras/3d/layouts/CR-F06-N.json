@@ -31,6 +31,7 @@
   "rotulo_tipo": null,
   "pmv": true,
   "trabalho_noturno": true,
+  "frente_sob_tabuleiro": false,
   "duracao_dias": null,
   "v_obra_kmh": null,
   "curva": null,

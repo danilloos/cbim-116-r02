@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'sha256-0T9k3H8ifru2PyM9OC24wX8iZQG3k9ScRrk5qd9Xbb0='; base-uri 'none'; form-action 'none'"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=../CR-C05/"><title>Croqui</title><style>*{box-sizing:border-box}body{margin:0;background:#f7f6f2;color:#001f1f;font:15px/1.45 Inter,system-ui,sans-serif}
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'sha256-uERhi6Qy+XcIs+4aran9h2bhKDbufdk0LkrTlXGaSoQ='; base-uri 'none'; form-action 'none'"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=../CR-C05/"><title>Croqui</title><style>*{box-sizing:border-box}body{margin:0;background:#f7f6f2;color:#001f1f;font:15px/1.45 Inter,system-ui,sans-serif}
 main{max-width:760px;margin:0 auto;padding:16px}header{background:#081b6a;color:#fff;padding:16px}
 header p{margin:0}.marca{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
 h1{font:700 26px/1.1 "Space Grotesk",system-ui,sans-serif;margin:6px 0}h2{font-size:20px;margin:24px 0 8px;color:#081b6a}
@@ -14,5 +14,14 @@ td{border:1px solid #d5d9d9;padding:6px 8px;vertical-align:top}td:first-child{co
 details{background:#fff;border:1px solid #d5d9d9;border-radius:12px;margin:8px 0;padding:10px 12px}
 summary{cursor:pointer;font-weight:700;min-height:32px}.momento{color:#5c7070;font-size:13px;margin:4px 0}
 ol{padding-left:22px}li{margin:4px 0}.lista a{display:block;padding:10px 0;border-bottom:1px solid #d5d9d9}
-.pe{color:#667474;font-size:12px;margin:32px 0 8px}</style></head>
+.pe{color:#667474;font-size:12px;margin:32px 0 8px}
+.turno{position:absolute;opacity:0;width:1px;height:1px;margin:-1px;overflow:hidden}
+.chave{display:inline-flex;border:2px solid #081b6a;border-radius:12px;overflow:hidden;margin:8px 0}
+.chave label{display:flex;align-items:center;justify-content:center;min-width:96px;min-height:48px;padding:0 18px;
+background:#fff;color:#081b6a;font-weight:700;cursor:pointer}
+#t-dia:checked ~ .chave label[for=t-dia],#t-noite:checked ~ .chave label[for=t-noite]{background:#081b6a;color:#fff}
+#t-dia:focus-visible ~ .chave label[for=t-dia],#t-noite:focus-visible ~ .chave label[for=t-noite]{outline:3px solid #001f1f;outline-offset:3px}
+#t-noite:checked ~ .v-dia{display:none}
+#t-dia:checked ~ .v-noite{display:none}
+figure{margin:0 0 12px}figcaption{color:#455252;font-size:13px;margin:4px 0}</style></head>
 <body><main><p><a href="../CR-C05/">Abrir o croqui</a></p></main></body></html>
