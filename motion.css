@@ -3,6 +3,7 @@
    Depende de tokens.css. Tudo desliga com prefers-reduced-motion. */
 
 /* M-Reveal: entrada única de conteúdo */
+/* Regra do estado visível leva o mesmo prefixo html.js do estado inicial; sem ele, o estado inicial vence por especificidade (corrigido em 18/11/2026). */
 /* Só esconde quando há JS (html.js, marcado pelo script); sem JS e na impressão, tudo visível. */
 html.js .s116-reveal{opacity:0;transform:translateY(var(--desl-reveal));transition:opacity calc(var(--mov-cena) - 150ms) var(--curva-assentar),transform var(--mov-cena) var(--curva-assentar)}
 html.js .s116-reveal.s116-eleva{transition:opacity calc(var(--mov-cena) - 150ms) var(--curva-assentar),transform var(--mov-cena) var(--curva-assentar),box-shadow var(--mov-medio)}
@@ -10,7 +11,7 @@ html.js .s116-reveal.s116-eleva.is-visible{transition:transform var(--mov-lento)
 html.js .s116-reveal.is-visible{opacity:1;transform:none}
 .s116-reveal[data-ordem="1"]{transition-delay:80ms}.s116-reveal[data-ordem="2"]{transition-delay:160ms}.s116-reveal[data-ordem="3"]{transition-delay:240ms}.s116-reveal[data-ordem="4"]{transition-delay:320ms}
 html.js .s116-palavra{display:inline-block;opacity:0;transform:translateY(var(--desl-palavra));transition:opacity var(--mov-lento) var(--curva-assentar),transform var(--mov-lento) var(--curva-assentar)}
-.is-visible .s116-palavra{opacity:1;transform:none}
+html.js .is-visible .s116-palavra{opacity:1;transform:none}
 
 /* M-Hover: resposta ao ponteiro */
 .s116-eleva{transition:transform var(--mov-lento) var(--curva-deslizar),box-shadow var(--mov-medio)}
@@ -42,7 +43,7 @@ html.js .s116-palavra{display:inline-block;opacity:0;transform:translateY(var(--
 .s116-escuro .s116-rota{color:#fff}
 .s116-rota i{position:relative;flex:1;height:var(--traco-rota);background:linear-gradient(90deg,var(--caraibeira),var(--azul-ararinha))}
 html.js .s116-rota i{transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--curva-estender)}
-.s116-rota.is-visible i{transform:none;background:linear-gradient(90deg,var(--caraibeira),var(--palha-clara),var(--azul-ararinha),var(--azul-ceu),var(--caraibeira));background-size:240% 100%;animation:s116-fluxo 5.5s linear infinite}
+html.js .s116-rota.is-visible i{transform:none;background:linear-gradient(90deg,var(--caraibeira),var(--palha-clara),var(--azul-ararinha),var(--azul-ceu),var(--caraibeira));background-size:240% 100%;animation:s116-fluxo 5.5s linear infinite}
 .s116-rota i::before,.s116-rota i::after{content:"";position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%}
 .s116-rota i::before{left:0;background:var(--caraibeira)}
 .s116-rota i::after{right:0;background:var(--azul-ararinha)}
@@ -64,7 +65,7 @@ html.js .s116-rota i{transform:scaleX(0);transform-origin:left;transition:transf
 
 /* M-Dado */
 html.js .s116-barra-cresce{transform-origin:left;transform:scaleX(0);transition:transform var(--mov-cena) var(--curva-estender)}
-.is-visible .s116-barra-cresce{transform:none}
+html.js .is-visible .s116-barra-cresce{transform:none}
 .is-visible .s116-barra-cresce:nth-child(2){transition-delay:80ms}.is-visible .s116-barra-cresce:nth-child(3){transition-delay:160ms}.is-visible .s116-barra-cresce:nth-child(4){transition-delay:240ms}.is-visible .s116-barra-cresce:nth-child(5){transition-delay:320ms}
 
 /* Impressão: tudo em repouso, sem controles de tela */
