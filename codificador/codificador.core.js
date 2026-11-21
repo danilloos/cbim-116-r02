@@ -5,7 +5,6 @@
   'use strict';
 
   const CONCESSIONARIA = 'SRT';
-  const ORIGEM = 'https://novainfrainvest.sharepoint.com';
   const BIBLIOTECAS = { CDEINFR: '02 CDE-INFR', CDEEDIF: '03 CDE-EDIF' };
   const FASES_COM_PASTA = new Set(['ANT', 'EXO']);           // criadas em cada obrigação (gerar_config_zonas.py)
   const CATEGORIAS_COM_PASTA = new Set(['PRC', 'MEM', 'MOD', 'PLQ']); // nível 5, só no EXO (_MODELO_OBRIGACAO)
@@ -93,9 +92,10 @@
     ];
   }
 
-  /** Caminho no SharePoint da zona. Devolve níveis, quantos já existem, o link da pasta existente mais funda
-      e o caminho em texto (nomes exibidos, para o projetista conferir; não é URL). */
-  function caminho({ site, lib, pasta, obrigacao, fase, ddd, ttt }) {
+  /** Caminho no projeto Trimble Connect da zona, o CDE da engenharia (Caderno §6.7 e §7.1, 21/11/2026).
+      Devolve os níveis, quantos vêm do modelo padrão da obrigação e o caminho em texto (para o projetista conferir).
+      Sem link: os projetos Trimble Connect das zonas ainda não têm endereço publicado. */
+  function caminho({ projeto, lib, pasta, obrigacao, fase, ddd, ttt }) {
     const niveis = [BIBLIOTECAS[lib]];
     let existe = 1;
     if (pasta) { niveis.push(pasta); existe = 2; }
@@ -108,9 +108,7 @@
       niveis.push(ddd);
       if (fase === 'EXO' && CATEGORIAS_COM_PASTA.has(ttt)) niveis.push(ttt);
     }
-    const rel = [`/sites/${site}/${lib}`, ...niveis.slice(1, existe)].join('/');
-    const url = `${ORIGEM}/sites/${site}/${lib}/Forms/AllItems.aspx?id=${encodeURIComponent(rel)}`;
-    return { niveis, existe, url, site: `${ORIGEM}/sites/${site}`, texto: [site, ...niveis].join(' / ') };
+    return { niveis, existe, texto: ['Trimble Connect', projeto, ...niveis].join(' / ') };
   }
 
   const normalizar = t => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

@@ -43,7 +43,7 @@
   const disc = D.disciplinas.find(d => d.cod === 'GEO') || D.disciplinas[0];
   const cat = D.categorias.find(c => c.cod === 'PRC') || D.categorias[0];
   const passos = [
-    ['Zona', `${z.id} ${z.nome}`, 'Recorte do território. Cada zona tem um site no SharePoint com as pastas de projeto.'],
+    ['Zona', `${z.id} ${z.nome}`, 'Recorte do território. Cada zona tem um projeto no Trimble Connect (CDE, com as pastas de projeto) e um site no SharePoint (gestão interna).'],
     ['Trecho homogêneo', `${th ? th.th.replace('_', ' ') : ex.th} · pasta ${ex.pasta}`, 'Divisão do PER por características da via. A pasta junta o ano-âncora (A03 = 3º ano) e o número do TH.'],
     ['Obrigação', `${ex.id} · ${C.semTraco(ex.desc)}`, 'A obra que o contrato exige. O ID vem da lista mestre.'],
     ['Fase', `${fase.proj} · ${fase.nome}`, 'Etapa do projeto: estudo, funcional, anteprojeto, executivo, as built.'],

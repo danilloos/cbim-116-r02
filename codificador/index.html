@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#064B63">
-<meta name="description" content="Codificador de Projetos da Concessionária 116 Sertões: mapa da concessão, guia da taxonomia de documentos, código de arquivo SRT e pasta do SharePoint.">
+<meta name="description" content="Codificador de Projetos da Concessionária 116 Sertões: mapa da concessão, guia da taxonomia de documentos, código de arquivo SRT e pasta no Trimble Connect.">
 <title>Codificador de Projetos · 116 Sertões</title>
 <link rel="icon" href="simbolo-116.svg">
 <link rel="preload" href="paisagem-estrada-aerea.jpg" as="image">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<link rel="stylesheet" href="codificador.css?v=202611202215">
+<link rel="stylesheet" href="codificador.css?v=202611211632">
 </head>
 <body>
 <a class="pular" href="#form">Pular para o formulário</a>
@@ -65,7 +65,7 @@
       <dl>
         <div><dt>PER</dt><dd>Programa de Exploração da Rodovia. Anexo do Contrato ANTT nº 1/2026 que lista as obras, os prazos e os parâmetros da concessão Rota dos Sertões.</dd></div>
         <div><dt>Obrigação</dt><dd>Obra ou serviço exigido pelo PER (duplicação, retorno, passarela, base operacional). Cada uma tem um ID na lista mestre, como Z05-DPL01.</dd></div>
-        <div><dt>Lista mestre</dt><dd>Planilha oficial que liga cada obrigação à zona, ao TH, ao km e à pasta do SharePoint. O codificador usa a versão publicada na Central BIM.</dd></div>
+        <div><dt>Lista mestre</dt><dd>Planilha oficial que liga cada obrigação à zona, ao TH, ao km e à pasta no Trimble Connect. O codificador usa a versão publicada na Central BIM.</dd></div>
         <div><dt>Zona</dt><dd>Recorte geográfico do acervo de projetos. Z01 a Z09 seguem a rodovia; Z00 reúne projetos de toda a extensão e da sede.</dd></div>
         <div><dt>TH</dt><dd>Trecho homogêneo da Tabela 43 do PER. A pasta Ano-TH (ex.: A03-TH01) junta o ano-âncora e o número do TH.</dd></div>
         <div><dt>km SNV 202607A</dt><dd>Quilometragem do Sistema Nacional de Viação do DNIT, versão de julho de 2026. É o km que entra no código (bloco de localização).</dd></div>
@@ -193,8 +193,7 @@
         <ol class="trilha" id="out-trilha"></ol>
         <p class="ajuda" id="out-trilha-nota"></p>
         <div class="acoes">
-          <a class="botao" id="out-abrir" target="_blank" rel="noopener">Abrir a pasta no SharePoint</a>
-          <button type="button" class="botao botao--contorno" data-copiar="out-caminho">Copiar caminho (texto)</button>
+          <button type="button" class="botao" data-copiar="out-caminho">Copiar caminho no Trimble Connect</button>
         </div>
         <p class="oculto" id="out-caminho"></p>
 
@@ -215,11 +214,11 @@
   <p id="rodape-fontes"></p>
 </footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="dados.js?v=202611202215"></script>
-<script src="geo.js?v=202611202215"></script>
-<script src="codificador.core.js?v=202611202215"></script>
-<script src="codificador.app.js?v=202611202215"></script>
-<script src="codificador.mapa.js?v=202611202215"></script>
-<script src="codificador.guia.js?v=202611202215"></script>
+<script src="dados.js?v=202611211632"></script>
+<script src="geo.js?v=202611211632"></script>
+<script src="codificador.core.js?v=202611211632"></script>
+<script src="codificador.app.js?v=202611211632"></script>
+<script src="codificador.mapa.js?v=202611211632"></script>
+<script src="codificador.guia.js?v=202611211632"></script>
 </body>
 </html>

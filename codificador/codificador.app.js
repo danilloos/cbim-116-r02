@@ -229,7 +229,7 @@
     const r = C.montar({ rod: loc.rod, local: C.blocoLocal(loc.kmIni, loc.kmFim), obra, proj: estado.fase.proj,
       cat: estado.cat, disc: estado.disc, seq: $('seq').value, rev: $('rev').value });
     if (!estado.disc.libs.includes(loc.lib)) avisos.push(`A disciplina ${estado.disc.cod} não tem pasta modelo em ${C.BIBLIOTECAS[loc.lib]}. Confirme com a Gestão da Informação onde salvar.`);
-    const cam = C.caminho({ site: zonaPorId[loc.zona].site, lib: loc.lib, pasta: loc.pasta, obrigacao: loc.obrigacao, fase: estado.fase.proj, ddd: estado.disc.cod, ttt: estado.cat.cod });
+    const cam = C.caminho({ projeto: zonaPorId[loc.zona].titulo, lib: loc.lib, pasta: loc.pasta, obrigacao: loc.obrigacao, fase: estado.fase.proj, ddd: estado.disc.cod, ttt: estado.cat.cod });
 
     $('out-srt').textContent = r.srt || 'Corrija o número ou a revisão (passo 5).';
     $('out-srt').classList.toggle('pendente', !r.srt);
@@ -246,12 +246,11 @@
     $('out-trilha').replaceChildren(...cam.niveis.map((n, i) => el('li', i < cam.existe ? null : 'criar', n)));
     const faltaCriar = cam.niveis.length - cam.existe;
     const semTH = loc.obrigacao && !loc.pasta;
-    $('out-trilha-nota').textContent = `Site ${zonaPorId[loc.zona].titulo}. ` + (semTH
-      ? 'Esta obra ainda não tem pasta Ano-TH no site. Combine com a Gestão da Informação onde criar a pasta da obrigação antes de salvar.'
+    $('out-trilha-nota').textContent = `Projeto ${zonaPorId[loc.zona].titulo} no Trimble Connect. ` + (semTH
+      ? 'Esta obra ainda não tem pasta Ano-TH no projeto. Combine com a Gestão da Informação onde criar a pasta da obrigação antes de salvar.'
       : faltaCriar
-        ? `As ${faltaCriar} pasta(s) tracejada(s) ainda não existem: copie a estrutura de _MODELO_OBRIGACAO da mesma biblioteca para dentro da pasta da obrigação.`
-        : 'Todas as pastas já existem.');
-    $('out-abrir').href = cam.url;
+        ? `As ${faltaCriar} pasta(s) tracejada(s) não vêm do modelo: copie a estrutura de _MODELO_OBRIGACAO da mesma pasta (02 CDE-INFR ou 03 CDE-EDIF) para dentro da pasta da obrigação.`
+        : 'Todas as pastas vêm do modelo da obrigação.');
     $('out-caminho').textContent = cam.texto;
 
     const local = `${loc.rodNome} km ${C.fmtKm(loc.kmIni)}${loc.kmFim != null ? ` a ${C.fmtKm(loc.kmFim)}` : ''} SNV (DNIT 202607A)`;

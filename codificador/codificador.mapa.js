@@ -198,7 +198,8 @@
       ...(z.kmIni != null && z.rodovia !== 'Contorno de Serrinha' ? [linhaFicha('Trecho:', `${z.rodovia} km SNV ${fmt(z.kmIni)} a ${fmt(z.kmFim)}`)] : [linhaFicha('Trecho:', z.rodovia)]),
       linhaFicha('Obrigações do PER:', String(n)),
       ...(munis.length ? [linhaFicha('Municípios:', munis.join(', '))] : []),
-      linhaFicha('Site SharePoint:', z.site));
+      linhaFicha('Projeto Trimble Connect (CDE):', z.titulo),
+      linhaFicha('Site SharePoint (gestão):', z.site));
     ficha.style.setProperty('--cor', gz ? gz.cor : '#064B63');
     ficha.hidden = false;
   }
