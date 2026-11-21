@@ -121,7 +121,8 @@
     for (const t of id ? C.thsDaZona(D.obrigacoes, id, D.ths) : []) {
       const info = D.ths.find(x => x.th === t.th);
       sel.append(Object.assign(el('option', null, t.pasta === 'EDIF' ? `EDIF · edificações da zona (${t.n})`
-        : `${t.pasta} · ${t.th}${C.faixaSnv(info)} (${t.n} obrigação${t.n > 1 ? 'ões' : ''})`), { value: t.pasta }));
+        : !t.th ? `${t.pasta} · acessos da zona (${t.n})`
+        : `${t.pasta} · ${t.th}${C.faixaSnv(info)} (${t.n} obrigaç${t.n > 1 ? 'ões' : 'ão'})`), { value: t.pasta }));
     }
     sel.disabled = !id;
     escolherTH('');

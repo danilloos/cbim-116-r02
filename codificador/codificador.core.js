@@ -165,7 +165,9 @@
       porPasta.set(o.pasta, t);
     }
     const km = Object.fromEntries((ths || []).map(t => [t.th, t.kmIni ?? 0]));
-    return [...porPasta.values()].sort((a, b) => (a.pasta === 'EDIF') - (b.pasta === 'EDIF') || (km[a.th] ?? 0) - (km[b.th] ?? 0));
+    // ordem: pastas Ano-TH pelo km, depois pasta sem TH (acessos Zxx-ACE00, SE-012), EDIF no fim
+    const grupo = t => (t.pasta === 'EDIF' ? 2 : t.th ? 0 : 1);
+    return [...porPasta.values()].sort((a, b) => grupo(a) - grupo(b) || (km[a.th] ?? 0) - (km[b.th] ?? 0));
   }
 
   /** Famílias de obrigação para os filtros do mapa (tipos de obra da tabela 1.1.3 agrupados para quem não conhece o PER). */
